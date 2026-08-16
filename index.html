@@ -136,31 +136,28 @@ html[data-theme="dark"] body{--grid:rgba(30,55,153,.06)}
 <!-- 首页 -->
 <div id="vHome" class="card">
   <div class="tag" id="tHomeTag">入镜前 · 一言</div>
-  <p id="tHomeP">《西游记》不是童话，是一本人到中年才读得懂的「社会生存手册」。软件不负责给答案，只负责把镜子擦亮。</p>
+  <p id="tHomeP">《西游记》不是童话，是一本人到中年才读得懂的"社会生存手册"。软件不负责给答案，只负责把镜子擦亮。</p>
   <p id="tHomeP2" style="margin-top:10px;color:var(--dim);font-size:13px">每一难，都是一面镜。照见你在相同处境下，会是取经队里的谁。</p>
-  <button class="btn main" onclick="show('vOrigin')" id="tEnter">照 这 一 镜 →</button>
+  <button class="btn main" onclick="enterMirror()" id="tEnter">照 这 一 镜 →</button>
 </div>
 
 <!-- 原文 -->
 <div id="vOrigin" class="card hidden">
-  <div class="tag" id="tOrgTag">第一镜 · 原文切片</div>
-  <h2 id="tOrgTitle">第二十七回<br>尸魔三戏唐三藏 · 圣僧恨逐美猴王</h2>
-  <p id="tOrgP">白骨精三次变化——村姑、老妇、老翁——来骗唐僧。悟空火眼金睛，三次识破，三次抡棒打死。可唐僧肉眼凡胎，只见悟空「无故伤人」，又听八戒一旁拱火，念起紧箍咒，写下贬书，将悟空逐回花果山。悟空含泪叩别。</p>
-  <p class="origin" id="tOrgQ">有些委屈，不是打妖怪能解的。</p>
+  <div class="tag" id="tOrgTag">原文切片</div>
+  <h2 id="tOrgTitle"></h2>
+  <p id="tOrgP"></p>
+  <p class="origin" id="tOrgQ"></p>
   <button class="btn main" onclick="show('vDilemma')" id="tNext">我见过这样的处境 →</button>
 </div>
 
 <!-- 处境 -->
 <div id="vDilemma" class="card hidden">
   <div class="tag" id="tDilTag">镜中转译 · 处境</div>
-  <h2 id="tDilTitle">如果这是你的职场</h2>
-  <p id="tDilP">你凭专业判断，看出当前方案有重大隐患，证据确凿。可领导肉眼看不见风险，同事还在旁边说「就你多事」。你会怎么做？</p>
-  <button class="btn" onclick="pick(0)"><span id="tOptA">把证据甩到桌面上，据理力争，哪怕被记恨</span>
-    <span class="who" id="tOptA2">悟空型 · 专业优先，风险前置</span></button>
-  <button class="btn" onclick="pick(1)"><span id="tOptB">按程序办事，领导定什么我执行什么</span>
-    <span class="who" id="tOptB2">唐僧型 · 程序正义，服从规则</span></button>
-  <button class="btn" onclick="pick(2)"><span id="tOptC">点到为止，不再多说，先把自己摘干净</span>
-    <span class="who" id="tOptC2">八戒型 · 沉默自保，明哲保身</span></button>
+  <h2 id="tDilTitle">如果这是你的处境</h2>
+  <p id="tDilP"></p>
+  <button class="btn" onclick="pick(0)"><span id="tOptA"></span><span class="who" id="tOptA2"></span></button>
+  <button class="btn" onclick="pick(1)"><span id="tOptB"></span><span class="who" id="tOptB2"></span></button>
+  <button class="btn" onclick="pick(2)"><span id="tOptC"></span><span class="who" id="tOptC2"></span></button>
 </div>
 
 <!-- 结果 -->
@@ -171,7 +168,7 @@ html[data-theme="dark"] body{--grid:rgba(30,55,153,.06)}
   <div class="result-line"><span id="tIdxLbl">见素指数</span>：<b id="rIdx"></b> <span style="color:var(--dim);font-size:12px" id="tIdxTip">（你的本真还剩多少）</span></div>
   <div class="meter"><div class="fill" id="rFill" style="width:0%"></div><span class="lbl" id="rFillLbl">0</span></div>
   <div class="duyu" id="rDuyu"></div>
-  <button class="btn main" onclick="location.reload()" id="tAgain">↺ 再照一镜</button>
+  <button class="btn main" onclick="nextMirror()" id="tNextM">下一面镜 →</button>
 </div>
 
 <div class="foot">见素 · 西游镜鉴录 · 样镜演示 · © 永远的兰兰 Lanlan Eternal</div>
@@ -190,35 +187,84 @@ let soundOn=true;
 function toggleSound(){ soundOn=!soundOn; const b=document.getElementById('bgm'); if(soundOn)b.play().catch(()=>{}); else b.pause(); document.getElementById('btnSound').className=soundOn?'active':''; }
 (function(){ const b=document.getElementById('bgm'); b.volume=0.25; b.play().catch(()=>{}); document.getElementById('btnSound').className='active'; document.addEventListener('pointerdown',function(){ if(soundOn&&b.paused)b.play().catch(()=>{}); }); })();
 
-let lang='zh';
+let lang='zh', mi=0;
 const I18N={
-zh:{sub:"西游镜鉴录 · 第一镜", slogan:"不判对错 · 只照见你本来的样子", sound:"音乐", use:"使用说明", disc:"免责声明", about:"关于",
- homeTag:"入镜前 · 一言", homeP:"《西游记》不是童话，是一本人到中年才读得懂的「社会生存手册」。软件不负责给答案，只负责把镜子擦亮。", homeP2:"每一难，都是一面镜。照见你在相同处境下，会是取经队里的谁。", enter:"照 这 一 镜 →",
- orgTag:"第一镜 · 原文切片", orgTitle:"第二十七回<br>尸魔三戏唐三藏 · 圣僧恨逐美猴王", orgP:"白骨精三次变化——村姑、老妇、老翁——来骗唐僧。悟空火眼金睛，三次识破，三次抡棒打死。可唐僧肉眼凡胎，只见悟空「无故伤人」，又听八戒一旁拱火，念起紧箍咒，写下贬书，将悟空逐回花果山。悟空含泪叩别。", orgQ:"有些委屈，不是打妖怪能解的。", next:"我见过这样的处境 →",
- dilTag:"镜中转译 · 处境", dilTitle:"如果这是你的职场", dilP:"你凭专业判断，看出当前方案有重大隐患，证据确凿。可领导肉眼看不见风险，同事还在旁边说「就你多事」。你会怎么做？",
- optA:"把证据甩到桌面上，据理力争，哪怕被记恨", optA2:"悟空型 · 专业优先，风险前置", optB:"按程序办事，领导定什么我执行什么", optB2:"唐僧型 · 程序正义，服从规则", optC:"点到为止，不再多说，先把自己摘干净", optC2:"八戒型 · 沉默自保，明哲保身",
- resTag:"照镜 · 见素", res1:"你选了", res2:"这一镜，照出你是", idxLbl:"见素指数", idxTip:"（你的本真还剩多少）", again:"↺ 再照一镜",
- c0:"把证据甩上桌，据理力争", c1:"按程序办事，服从执行", c2:"点到为止，沉默自保",
- d0:"白骨精三戏三打，真话被当成了冒犯。不是妖怪打败了你，是身边的唐僧和八戒。你的火眼金睛，还信吗？<span class='s'>此难度与不度，都在你。——见素</span>",
- d1:"你守的是戒律和程序，不是真相。规则保护了你，也蒙住了你——火眼金睛与肉眼凡胎之间，隔着一个「敢不敢信自己」。<span class='s'>此难度与不度，都在你。——见素</span>",
- d2:"你学会了看眼色，学会了沉默。那一棒你没打下去，妖怪也没走远——你只是学会了在取经路上，先管好自己的耳朵。<span class='s'>此难度与不度，都在你。——见素</span>",
- useHtml:`<h2>📖 使用说明</h2><p><b>见素 · 西游镜鉴录</b>是一面照见自己的镜子。</p><h3>怎么玩</h3><ul><li>每一难（一个西游故事）都是一面镜</li><li>先读原文切片，再看它转译成的现代处境</li><li>选一个"你会怎么做"——没有对错，只有人设</li><li>照镜后，你会看到自己的取经人格与见素指数</li></ul><h3>见素指数</h3><p>0–100，代表"你本真的心气还剩多少"。选得多委曲求全，指数就低；守住专业与本心，指数就高。</p><h3>原则</h3><p>不判对错、不站队、不说教。每一镜最后只有一句度语——此难度与不度，都在你。</p>`,
+zh:{sound:"音乐",use:"使用说明",disc:"免责声明",about:"关于",slogan:"不判对错 · 只照见你本来的样子",
+ homeTag:"入镜前 · 一言",homeP:"《西游记》不是童话，是一本人到中年才读得懂的「社会生存手册」。软件不负责给答案，只负责把镜子擦亮。",homeP2:"每一难，都是一面镜。照见你在相同处境下，会是取经队里的谁。",enter:"照 这 一 镜 →",
+ orgTag:"原文切片",next:"我见过这样的处境 →",dilTag:"镜中转译 · 处境",dilTitle:"如果这是你的处境",
+ resTag:"照镜 · 见素",res1:"你选了",res2:"这一镜，照出你是",idxLbl:"见素指数",idxTip:"（你的本真还剩多少）",nextM:"下一面镜 →",
+ useHtml:`<h2>📖 使用说明</h2><p><b>见素 · 西游镜鉴录</b>是一面照见自己的镜子。</p><h3>怎么玩</h3><ul><li>每一难（一个西游故事）都是一面镜</li><li>先读原文切片，再看它转译成的现代处境</li><li>选一个"你会怎么做"——没有对错，只有人设</li><li>照镜后，看到自己的取经人格与见素指数</li><li>点「下一面镜」继续照，不必重开</li></ul><h3>见素指数</h3><p>0–100，代表"你本真的心气还剩多少"。选得多委曲求全，指数就低；守住专业与本心，指数就高。</p><h3>原则</h3><p>不判对错、不站队、不说教。每一镜最后只有一句度语——此难度与不度，都在你。</p>`,
  discHtml:`<h2>⚠️ 免责声明</h2><p><b>1. 性质</b>：本工具基于《西游记》创作的文化互动应用，输出内容属<b>传统文化解读与娱乐</b>范畴，非学术研究，亦非任何确定性论断。</p><p><b>2. 解读主观性</b>：所有"职场/社会映射"均为现代视角的文学联想，非原著本意，亦不代表唯一解读。请保留自己的判断。</p><p><b>3. 不提供建议</b>：本工具不提供任何职场、法律、心理或投资建议。重要决定请咨询专业人士。</p><p><b>4. 决策责任</b>：请勿将输出结果作为重大人生决策的依据。你的人生由你的行动与选择决定。</p><p><b>5. 数据隐私</b>：纯前端单文件应用，无服务器、无跟踪，所有数据仅存本地浏览器。</p><p><b>6. 版权</b>：《西游记》为公共领域著作；本工具原创内容以开源形式发布，仅供个人学习娱乐，请勿商业牟利。</p><p><b>7. 结语</b>：书中的镜子照见的从来不是妖怪，是你自己。继续使用即视为同意以上条款。</p>`,
- aboutHtml:`<h2>ℹ️ 关于</h2><p><b>见素 · 西游镜鉴录</b>（Jiansu · Xiyou Mirror Records）</p><p>取《老子》"见素抱朴"——照见你本来的样子。<br>以《西游记》八十一难为镜，照现代人的处境与本心。</p><p><b>作者</b>：永远的兰兰（Lanlan Eternal）</p><p><b>开源</b>：github.com/podcatcher962</p><p style="margin-top:10px;color:var(--dim);font-size:11px">© 永远的兰兰 · Lanlan Eternal · 2026</p>`},
-en:{sub:"Xiyou Mirror Records · Mirror I", slogan:"No verdicts — just see who you truly are", sound:"Music", use:"How to Use", disc:"Disclaimer", about:"About",
- homeTag:"Before the mirror · A word", homeP:"Journey to the West is not a fairy tale — it is a survival manual for grown-ups. This app gives no answers; it only polishes the mirror.", homeP2:"Every trial is a mirror showing who you would be in the team.", enter:"Look into this mirror →",
- orgTag:"Mirror I · Original", orgTitle:"Chapter 27<br>The Corpse Demon Tricks the Monk Thrice; The Sage Monk Angrily Banishes the Monkey King", orgP:"The Bone Demon disguises herself thrice — a girl, an old woman, an old man. Wukong sees through each and strikes her down. But Tang Monk, seeing only 'senseless killing,' and urged on by Bajie, recites the tightening spell and banishes Wukong to Flower-Fruit Mountain. Wukong bows and leaves in tears.", orgQ:"Some wrongs cannot be undone by slaying monsters.", next:"I have seen this before →",
- dilTag:"Mirror translation · Dilemma", dilTitle:"If this were your workplace", dilP:"You see a major flaw in the current plan with solid evidence, but your boss cannot see it and a colleague says 'you're making trouble.' What do you do?",
- optA:"Throw the evidence on the table and fight for it, even if resented", optA2:"Wukong · truth first", optB:"Follow procedure and comply with whatever the boss decides", optB2:"Tang Monk · process over truth", optC:"Say just enough, say no more, keep yourself clean", optC2:"Bajie · stay silent, stay safe",
- resTag:"Mirrored · Jiansu", res1:"You chose", res2:"This mirror shows you are", idxLbl:"Jiansu Index", idxTip:"(how much of your true self remains)", again:"↺ Look again",
- c0:"Fought for the truth", c1:"Followed the procedure", c2:"Stayed silent",
- d0:"Truth became an offense. It was not the demon that defeated you — it was the Tang Monk and Bajie beside you. Do you still trust your flaming eyes?<span class='s'>This trial is yours to take or leave. — Jiansu</span>",
- d1:"You keep the rules, not the truth. Rules shield you, and blind you — between fiery eyes and mortal eyes lies a single question: dare you trust yourself?<span class='s'>This trial is yours to take or leave. — Jiansu</span>",
- d2:"You learned to read the room, to stay quiet. That strike never landed, and the demon never left — you only learned to guard your ears on this journey.<span class='s'>This trial is yours to take or leave. — Jiansu</span>",
- useHtml:`<h2>📖 How to Use</h2><p><b>Jiansu</b> is a mirror that sees you.</p><h3>How it works</h3><ul><li>Each trial (a story from the Journey) is one mirror</li><li>Read the original, then its modern translation</li><li>Choose "what you would do" — no right or wrong, only who you are</li><li>You will see your team persona and your Jiansu Index</li></ul><h3>Jiansu Index</h3><p>0–100: how much of your true spirit remains. Bending to please lowers it; keeping your truth raises it.</p><h3>Principle</h3><p>No verdicts, no camps, no preaching. Each mirror ends with one line — the trial is yours to take or leave.</p>`,
- discHtml:`<h2>⚠️ Disclaimer</h2><p><b>1. Nature:</b> A cultural interaction app based on Journey to the West, for <b>cultural interpretation and entertainment</b>, not scholarship or certainty.</p><p><b>2. Subjectivity:</b> All modern mappings are literary associations, not the original intent nor the only reading. Keep your own judgment.</p><p><b>3. No advice:</b> No career, legal, psychological, or investment advice. Consult professionals for major decisions.</p><p><b>4. Responsibility:</b> Never base major life decisions on the output. Your life is shaped by your choices.</p><p><b>5. Privacy:</b> Pure front-end single file. No server, no tracking; all data stays in your browser.</p><p><b>6. Copyright:</b> Journey to the West is public domain; original content is open-source for personal study only.</p><p><b>7. Closing:</b> The mirror never shows a demon — it shows you. By using, you accept these terms.</p>`,
- aboutHtml:`<h2>ℹ️ About</h2><p><b>Jiansu · Xiyou Mirror Records</b></p><p>From Laozi's "Jiansu Baopu" — see your true, unvarnished self.<br>Using the 81 trials of the Journey as mirrors for modern dilemmas.</p><p><b>Author</b>: Lanlan Eternal (永远的兰兰)</p><p><b>Source</b>: github.com/podcatcher962</p><p style="margin-top:10px;color:var(--dim);font-size:11px">© Lanlan Eternal · 2026</p>`}};
+ aboutHtml:`<h2>ℹ️ 关于</h2><p><b>见素 · 西游镜鉴录</b>（JianMirror · Xiyou Mirror Records）</p><p>取《老子》「见素抱朴」——照见你本来的样子。<br>以《西游记》八十一难为镜，照现代人的处境与本心。</p><p><b>作者</b>：永远的兰兰（Lanlan Eternal）</p><p><b>开源</b>：github.com/podcatcher962</p><p style="margin-top:10px;color:var(--dim);font-size:11px">© 永远的兰兰 · Lanlan Eternal · 2026</p>`},
+en:{sound:"Music",use:"How to Use",disc:"Disclaimer",about:"About",slogan:"No verdicts — just see who you truly are",
+ homeTag:"Before the mirror · A word",homeP:"Journey to the West is not a fairy tale — it is a survival manual for grown-ups. This app gives no answers; it only polishes the mirror.",homeP2:"Every trial is a mirror showing who you would be in the team.",enter:"Look into this mirror →",
+ orgTag:"Original",next:"I have seen this before →",dilTag:"Mirror translation · Dilemma",dilTitle:"If this were your situation",
+ resTag:"Mirrored · Jiansu",res1:"You chose",res2:"This mirror shows you are",idxLbl:"Jiansu Index",idxTip:"(how much of your true self remains)",nextM:"Next mirror →",
+ useHtml:`<h2>📖 How to Use</h2><p><b>JianMirror</b> is a mirror that sees you.</p><h3>How it works</h3><ul><li>Each trial is one mirror</li><li>Read the original, then its modern translation</li><li>Choose "what you would do" — no right or wrong</li><li>See your pilgrim persona and Jiansu Index</li><li>Tap "Next mirror" to continue, no need to restart</li></ul><h3>Jiansu Index</h3><p>0–100: how much of your true spirit remains.</p><h3>Principle</h3><p>No verdicts, no camps, no preaching. Each mirror ends with one line — the trial is yours to take or leave.</p>`,
+ discHtml:`<h2>⚠️ Disclaimer</h2><p><b>1. Nature:</b> A cultural interaction app based on Journey to the West, for <b>cultural interpretation and entertainment</b>, not scholarship or certainty.</p><p><b>2. Subjectivity:</b> All modern mappings are literary associations, not the original intent nor the only reading.</p><p><b>3. No advice:</b> No career, legal, psychological, or investment advice.</p><p><b>4. Responsibility:</b> Never base major life decisions on the output.</p><p><b>5. Privacy:</b> Pure front-end single file. No server, no tracking.</p><p><b>6. Copyright:</b> Public domain source; original content open-source for personal study only.</p><p><b>7. Closing:</b> The mirror never shows a demon — it shows you. By using, you accept these terms.</p>`,
+ aboutHtml:`<h2>ℹ️ About</h2><p><b>JianMirror · Xiyou Mirror Records</b></p><p>From Laozi's "Jiansu Baopu" — see your true, unvarnished self.<br>Using the 81 trials of the Journey as mirrors for modern dilemmas.</p><p><b>Author</b>: Lanlan Eternal (永远的兰兰)</p><p><b>Source</b>: github.com/podcatcher962</p><p style="margin-top:10px;color:var(--dim);font-size:11px">© Lanlan Eternal · 2026</p>`}};
 function t(k){return I18N[lang][k];}
+
+// ============ 81 面镜（当前 4 面样镜） ============
+const MIRRORS=[
+{zh:{title:"第二十七回<br>尸魔三戏唐三藏 · 圣僧恨逐美猴王",orig:"白骨精三次变化——村姑、老妇、老翁——来骗唐僧。悟空火眼金睛，三次识破，三次抡棒打死。可唐僧肉眼凡胎，只见悟空「无故伤人」，又听八戒一旁拱火，念起紧箍咒，写下贬书，将悟空逐回花果山。悟空含泪叩别。",line:"有些委屈，不是打妖怪能解的。",dil:"你凭专业判断，看出当前方案有重大隐患，证据确凿。可领导肉眼看不见风险，同事还在旁边说「就你多事」。你会怎么做？",
+ opts:[{a:"把证据甩到桌面上，据理力争，哪怕被记恨",b:"悟空型 · 专业优先，风险前置",who:"悟空型 · 锐",idx:106,du:"白骨精三戏三打，真话被当成了冒犯。不是妖怪打败了你，是身边的唐僧和八戒。你的火眼金睛，还信吗？<span class='s'>此难度与不度，都在你。——见素</span>"},
+ {a:"按程序办事，领导定什么我执行什么",b:"唐僧型 · 程序正义，服从规则",who:"唐僧型 · 执",idx:98,du:"你守的是戒律和程序，不是真相。规则保护了你，也蒙住了你——火眼金睛与肉眼凡胎之间，隔着一个「敢不敢信自己」。<span class='s'>此难度与不度，都在你。——见素</span>"},
+ {a:"点到为止，不再多说，先把自己摘干净",b:"八戒型 · 沉默自保，明哲保身",who:"八戒型 · 滑",idx:91,du:"你学会了看眼色，学会了沉默。那一棒你没打下去，妖怪也没走远——你只是学会了在取经路上，先管好自己的耳朵。<span class='s'>此难度与不度，都在你。——见素</span>"}]},
+en:{title:"Chapter 27<br>The Corpse Demon Tricks the Monk Thrice; The Sage Monk Banishes the Monkey King",orig:"The Bone Demon disguises herself thrice — a girl, an old woman, an old man. Wukong sees through each and strikes her down. But Tang Monk, seeing only senseless killing and urged on by Bajie, recites the tightening spell and banishes Wukong.",line:"Some wrongs cannot be undone by slaying monsters.",dil:"You see a major flaw in the current plan with solid evidence, but your boss cannot see it and a colleague says you are making trouble. What do you do?",
+ opts:[{a:"Throw the evidence on the table and fight for it, even if resented",b:"Wukong · truth first",who:"Wukong · Sharp",idx:106,du:"Truth became an offense. It was not the demon that defeated you — it was the Tang Monk and Bajie beside you. Do you still trust your flaming eyes?<span class='s'>This trial is yours to take or leave. — JianMirror</span>"},
+ {a:"Follow procedure and comply with whatever the boss decides",b:"Tang Monk · process over truth",who:"Tang Monk · Rigid",idx:98,du:"You keep the rules, not the truth. Rules shield you, and blind you — between fiery eyes and mortal eyes lies one question: dare you trust yourself?<span class='s'>This trial is yours to take or leave. — JianMirror</span>"},
+ {a:"Say just enough, say no more, keep yourself clean",b:"Bajie · stay silent, stay safe",who:"Bajie · Smooth",idx:91,du:"You learned to read the room, to stay quiet. That strike never landed, and the demon never left — you only learned to guard your ears.<span class='s'>This trial is yours to take or leave. — JianMirror</span>"}]}},
+{zh:{title:"第五十八回<br>二心搅乱大乾坤 · 一体难修真寂灭",orig:"六耳猕猴变作悟空模样，打伤唐僧，抢走行李。真假悟空打到如来面前，如来辨出六耳，悟空一棒打死。此后，悟空不再硬刚，先查妖怪后台，也不再提回花果山——他到底是成长了，还是被「置换」了？",line:"死的是六耳，还是原来的悟空？",dil:"你在大厂/体制里待了几年，发现那个「以前敢拍桌子、敢说真话的自己」不见了。朋友说你成熟了，你心里却空落落的。这是成长，还是被换掉了？",
+ opts:[{a:"成熟不等于认输，我在工作里守规则，心里还留着那片花果山",b:"悟空型 · 外圆内方",who:"悟空型 · 锐",idx:104,du:"这一棒打死的到底是六耳，还是原来的你？斗战胜佛是被规训成功的标本——你的野性还留几成，只有你自己知道。<span class='s'>此难度与不度，都在你。——见素</span>"},
+ {a:"我确实变了，但安稳比锋利重要，这没什么不好",b:"唐僧型 · 随缘安分",who:"唐僧型 · 执",idx:94,du:"你选择了安稳，把锋利的自己收进了盒子里。盒子里没有风浪，也没有花果山——偶尔路过镜子，别忘了看一眼里面是谁。<span class='s'>此难度与不度，都在你。——见素</span>"},
+ {a:"说不清哪个是真的我，好像两边都是我",b:"八戒型 · 模棱两可",who:"八戒型 · 滑",idx:98,du:"真我和假我，你早已分不清，也不愿分清。混沌有时是智慧，有时是逃避——但镜子里照出的，始终只有一个人。<span class='s'>此难度与不度，都在你。——见素</span>"}]},
+en:{title:"Chapter 58<br>Two Hearts Throw Heaven into Turmoil; One Body Is Hard Put to Cultivate the Void",orig:"A six-eared macaque takes Wukong's form, injures Tang Monk, and steals the luggage. The two Wukongs fight to the Buddha, who exposes the impostor; Wukong kills it. From then on, Wukong no longer fights head-on and never mentions returning home — has he grown, or has he been replaced?",line:"Who died — the impostor, or the original Wukong?",dil:"After years in the corporate machine, the person who used to speak up is gone. Friends call it maturity; you feel an emptiness. Growth, or replacement?",
+ opts:[{a:"Maturity is not surrender — I keep the rules at work, and keep my mountain in my heart",b:"Wukong · smooth outside, true inside",who:"Wukong · Sharp",idx:104,du:"What died that day — the impostor, or you? The victorious Buddha is a well-trained specimen. Only you know how much wildness remains.<span class='s'>This trial is yours to take or leave. — JianMirror</span>"},
+ {a:"I have changed, and safety matters more than sharpness — that is fine",b:"Tang Monk · serene compliance",who:"Tang Monk · Rigid",idx:94,du:"You chose safety and shelved your sharp self. The box keeps out storms, and also your mountain — pass a mirror once in a while.<span class='s'>This trial is yours to take or leave. — JianMirror</span>"},
+ {a:"I cannot tell which is the real me — both sides feel like me",b:"Bajie · neither here nor there",who:"Bajie · Smooth",idx:98,du:"True and false have blurred, and you no longer care to tell. Ambiguity is sometimes wisdom, sometimes escape — but the mirror always shows one person.<span class='s'>This trial is yours to take or leave. — JianMirror</span>"}]}},
+{zh:{title:"第十四回 · 心猿归正 六贼无踪<br>（金箍始末）",orig:"观音给悟空戴上金箍，传了唐僧紧箍咒。不听话，就念咒，头疼欲裂。可成佛那日，金箍自己消失了——它从来不是为「修心」，是为「听话」。",line:"你不是自由了箍才掉，是没用了才掉。",dil:"你身上有没有一道「紧箍咒」——房贷、绩效、职级、家人的期待？它护着你安稳，也管着你听话。你怎么看它？",
+ opts:[{a:"我接受这道箍：它让我安稳，也让我按规矩做事",b:"唐僧型 · 顺受",who:"唐僧型 · 执",idx:95,du:"箍护你周全，也替你做了决定。安稳是要付代价的，代价是那句「我想」越说越少——但日子，确实好过。<span class='s'>此难度与不度，都在你。——见素</span>"},
+ {a:"我会在箍里腾挪：表面听话，心里留一块自己的地",b:"八戒型 · 明哲",who:"八戒型 · 滑",idx:100,du:"你戴着箍，却学会了在箍里打转：领导面前低眉，心里自有山海。这不是滑头，是普通人的生存智慧。<span class='s'>此难度与不度，都在你。——见素</span>"},
+ {a:"我在攒本事、攒底气，想有一天把这箍摘了",b:"悟空型 · 破局",who:"悟空型 · 锐",idx:108,du:"你信箍是暂时的。攒的本事、存的底气，都是为了那一天的「摘」——但别忘了，摘箍之前，先看清自己的头在哪。<span class='s'>此难度与不度，都在你。——见素</span>"}]},
+en:{title:"Chapter 14 · The Heart-Ape Returns to the Right<br>(the story of the band)",orig:"Guanyin puts a golden band on Wukong's head and teaches Tang Monk the Tightening Spell. Disobey, and the spell brings agonizing pain. Yet on the day he becomes a Buddha, the band falls away on its own — it was never for cultivating the mind, but for obedience.",line:"The band falls not when you are free, but when you are no longer needed.",dil:"Is there a band on your head — mortgage, KPIs, rank, family expectations? It keeps you safe, and it keeps you obedient. How do you see it?",
+ opts:[{a:"I accept the band: it keeps me safe and keeps me in line",b:"Tang Monk · acceptance",who:"Tang Monk · Rigid",idx:95,du:"The band protects you and decides for you. Safety has a price: the phrase 'I want' grows quieter — but life, indeed, is easier.<span class='s'>This trial is yours to take or leave. — JianMirror</span>"},
+ {a:"I maneuver within the band: obedient outside, my own land inside",b:"Bajie · discretion",who:"Bajie · Smooth",idx:100,du:"You wear the band but learned to spin within it: low head to the boss, mountains in the heart. Not slyness — a commoner's wisdom.<span class='s'>This trial is yours to take or leave. — JianMirror</span>"},
+ {a:"I am saving skill and spine, hoping one day to take the band off",b:"Wukong · breaker",who:"Wukong · Sharp",idx:108,du:"You believe the band is temporary. Every skill saved, every spine kept, is for that day of removal — but first, know where your head stands.<span class='s'>This trial is yours to take or leave. — JianMirror</span>"}]}},
+{zh:{title:"第四回 · 官封弼马心何足 · 名注齐天意未宁",orig:"悟空上天，被封「弼马温」——听着是「御马监正堂管事」，实则是末等养马小官。他怒反天庭，回花果山，挂起「齐天大圣」的旗。",line:"你愤怒的不是官小，是被当傻子。",dil:"你接到一个 title 很响的 offer，进去才发现活是打杂的，title 只是安抚。你会怎么做？",
+ opts:[{a:"掀桌子不干，宁可回「花果山」做自己",b:"悟空型 · 掀桌",who:"悟空型 · 锐",idx:109,du:"你掀了桌子，为自己挂起那面旗。代价是路难走些，好处是抬头时，天还是那片天。<span class='s'>此难度与不度，都在你。——见素</span>"},
+ {a:"先干着，title 好用就行，骑驴找马",b:"八戒型 · 骑驴",who:"八戒型 · 滑",idx:97,du:"你把 title 当梯子，把忍耐当本钱。聪明，但也别忘了梯子顶端，还站着谁。<span class='s'>此难度与不度，都在你。——见素</span>"},
+ {a:"反思是不是自己心气太高，踏踏实实从头做起",b:"唐僧型 · 守戒",who:"唐僧型 · 执",idx:92,du:"你选择了踏实，把「齐天」藏进「弼马」的皮囊里。稳妥是稳妥，只是那面旗，还挂不挂得起来。<span class='s'>此难度与不度，都在你。——见素</span>"}]},
+en:{title:"Chapter 4 · The Title of Horsekeeper Rankles; The Name of Great Sage Leaves No Peace",orig:"Wukong is given the title 'Keeper of the Heavenly Horses' — it sounds grand, but it is the lowest stable job. Furious, he leaves Heaven and raises his own banner: 'Great Sage, Equal of Heaven.'",line:"You rage not at the small post, but at being treated like a fool.",dil:"You take a job with a grand title, then find the work is grunt work — the title was just a placate. What do you do?",
+ opts:[{a:"Walk out and go back to my own mountain",b:"Wukong · defiance",who:"Wukong · Sharp",idx:109,du:"You turned the table and raised your own banner. The road is harder; the reward is that when you look up, the sky is still the sky.<span class='s'>This trial is yours to take or leave. — JianMirror</span>"},
+ {a:"Keep the job, use the title as a ladder, and look around",b:"Bajie · ladder",who:"Bajie · Smooth",idx:97,du:"You treat the title as a ladder and patience as capital. Clever — but remember who stands at the top of the ladder.<span class='s'>This trial is yours to take or leave. — JianMirror</span>"},
+ {a:"Reflect that I may be too proud, and start humbly from the bottom",b:"Tang Monk · discipline",who:"Tang Monk · Rigid",idx:92,du:"You chose steadiness, tucking 'Equal of Heaven' into the stablekeeper's skin. Safe, yes — but can that banner still be raised?<span class='s'>This trial is yours to take or leave. — JianMirror</span>"}]}},
+];
+
+// ============ 渲染 ============
+function renderMirror(){
+  const m=MIRRORS[mi][lang];
+  document.getElementById('sub').textContent = (lang==='zh'?'西游镜鉴录 · 第':'Xiyou Mirror Records · Mirror ')+(mi+1)+(lang==='zh'?'镜':'');
+  document.getElementById('tOrgTitle').innerHTML=m.title;
+  document.getElementById('tOrgP').textContent=m.orig;
+  document.getElementById('tOrgQ').textContent=m.line;
+  document.getElementById('tDilP').textContent=m.dil;
+  for(let i=0;i<3;i++){
+    document.getElementById('tOpt'+['A','B','C'][i]).textContent=m.opts[i].a;
+    document.getElementById('tOpt'+['A','B','C'][i]+'2').textContent=m.opts[i].b;
+  }
+}
+function enterMirror(){ renderMirror(); show('vOrigin'); }
+function nextMirror(){ mi=(mi+1)%MIRRORS.length; renderMirror(); show('vOrigin'); }
+function pick(i){
+  const o=MIRRORS[mi][lang].opts[i], idx=Math.min(100,Math.max(0,o.idx));
+  document.getElementById('tRes1').innerHTML = t('res1')+' <b>'+o.a+'</b>';
+  document.getElementById('tRes2').innerHTML = t('res2')+' <b>'+o.who+'</b>';
+  document.getElementById('rIdx').textContent=idx;
+  document.getElementById('rDuyu').innerHTML=o.du;
+  show('vResult');
+  setTimeout(()=>{ document.getElementById('rFill').style.width=idx+'%'; document.getElementById('rFillLbl').textContent=idx; },120);
+}
 function setL(l){
   lang=l;
   document.getElementById('btnZh').className=l==='zh'?'active':'';
@@ -227,30 +273,20 @@ function setL(l){
   document.getElementById('tUse').textContent=t('use');
   document.getElementById('tDisc').textContent=t('disc');
   document.getElementById('tAbout').textContent=t('about');
-  document.getElementById('sub').textContent=t('sub');
   document.getElementById('slogan').textContent=t('slogan');
   document.getElementById('tHomeTag').textContent=t('homeTag');
   document.getElementById('tHomeP').textContent=t('homeP');
   document.getElementById('tHomeP2').textContent=t('homeP2');
   document.getElementById('tEnter').textContent=t('enter');
   document.getElementById('tOrgTag').textContent=t('orgTag');
-  document.getElementById('tOrgTitle').innerHTML=t('orgTitle');
-  document.getElementById('tOrgP').textContent=t('orgP');
-  document.getElementById('tOrgQ').textContent=t('orgQ');
   document.getElementById('tNext').textContent=t('next');
   document.getElementById('tDilTag').textContent=t('dilTag');
   document.getElementById('tDilTitle').textContent=t('dilTitle');
-  document.getElementById('tDilP').textContent=t('dilP');
-  document.getElementById('tOptA').textContent=t('optA');
-  document.getElementById('tOptA2').textContent=t('optA2');
-  document.getElementById('tOptB').textContent=t('optB');
-  document.getElementById('tOptB2').textContent=t('optB2');
-  document.getElementById('tOptC').textContent=t('optC');
-  document.getElementById('tOptC2').textContent=t('optC2');
   document.getElementById('tResTag').textContent=t('resTag');
   document.getElementById('tIdxLbl').textContent=t('idxLbl');
   document.getElementById('tIdxTip').textContent=t('idxTip');
-  document.getElementById('tAgain').textContent=t('again');
+  document.getElementById('tNextM').textContent=t('nextM');
+  renderMirror();
 }
 function openModal(type){
   const html = type==='use'?t('useHtml') : type==='disc'?t('discHtml') : t('aboutHtml');
@@ -258,21 +294,6 @@ function openModal(type){
   document.getElementById('modalOverlay').classList.add('show');
 }
 function closeModal(){ document.getElementById('modalOverlay').classList.remove('show'); }
-
-const CHOICES=[
-  {who:['悟空型 · 锐','Wukong · Sharp'], idx:106, d:['d0','d0']},
-  {who:['唐僧型 · 执','Tang Monk · Rigid'], idx:98, d:['d1','d1']},
-  {who:['八戒型 · 滑','Bajie · Smooth'], idx:91, d:['d2','d2']},
-];
-function pick(i){
-  const c=CHOICES[i], idx=Math.min(100,Math.max(0,c.idx));
-  document.getElementById('tRes1').innerHTML = t('res1')+' <b>'+t('c'+i)+'</b>';
-  document.getElementById('tRes2').innerHTML = t('res2')+' <b>'+c.who[(lang==='zh'?0:1)]+'</b>';
-  document.getElementById('rIdx').textContent=idx;
-  document.getElementById('rDuyu').innerHTML=t(c.d[lang==='zh'?0:1]);
-  show('vResult');
-  setTimeout(()=>{ document.getElementById('rFill').style.width=idx+'%'; document.getElementById('rFillLbl').textContent=idx; },120);
-}
 (function(){ try{applyTheme(localStorage.getItem('jsTheme')||'light');}catch(e){applyTheme('light');} setL('zh'); })();
 </script>
 </body>
