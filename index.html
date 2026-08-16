@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="见素 · 西游镜鉴录 — 以《西游记》为镜，照见你本来的样子。不判对错，只照心。">
+<title>见素 · 西游镜鉴录 | JianMirror · Xiyou Mirror Records</title>
+<style>
+:root{
+  --bg:#0d0d1a;--card:#13132b;--bdr:#1e3799;--accent:#4a69bd;
+  --gold:#ffd700;--text:#c8d6e5;--dim:#7f8fa6;--inp:#0c0c22;--inpText:#f1f2f6;
+  --mutedBdr:#2a2a4a;--foot:#576574;--chip:#1a1a36;
+  --btnBg:#0c0c22;--btnTxt:#ffd700;--btnBd:#1e3799;--btnSub:#9aa8c0;
+  --btnMainBg:linear-gradient(180deg,#2c3e80,#1e2d6a);--btnMainTxt:#ffd700;
+}
+html[data-theme="light"]{
+  --bg:#f2e6cd;--card:#faf0dc;--bdr:#b8914f;--accent:#8a6a35;
+  --gold:#7a5c1e;--text:#3e2f1d;--dim:#7d6a4d;--inp:#f7ecd6;--inpText:#3e2f1d;
+  --mutedBdr:#d8c39a;--foot:#a08a63;--chip:#f0e3c8;
+  --btnBg:#f7ecd6;--btnTxt:#3e2f1d;--btnBd:#b8914f;--btnSub:#6b552f;
+  --btnMainBg:linear-gradient(180deg,#c9a25a,#a37c34);--btnMainTxt:#33230c;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  background:var(--bg);color:var(--text);font-family:'Courier New','Microsoft YaHei',monospace;
+  min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:22px 14px 48px;
+  background-image:repeating-linear-gradient(0deg,transparent,transparent 31px,var(--grid,transparent) 31px,var(--grid,transparent) 32px),repeating-linear-gradient(90deg,transparent,transparent 31px,var(--grid,transparent) 31px,var(--grid,transparent) 32px);
+  transition:background .3s,color .3s;
+}
+html[data-theme="light"] body{--grid:rgba(138,106,53,.08)}
+html[data-theme="dark"] body{--grid:rgba(30,55,153,.06)}
+.wrap{max-width:600px;width:100%}
+/* Splash 圆镜照仙山 */
+#splash{position:fixed;inset:0;z-index:300;background:#f2e6cd;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;animation:splashFade 9s ease forwards;overflow:hidden}
+@keyframes splashFade{0%{opacity:0}8%{opacity:1}70%{opacity:1}100%{opacity:0;visibility:hidden}}
+.s-row{display:flex;align-items:center;gap:26px}
+.s-title{font-family:'FangSong','STFangsong','simkai',serif;font-size:64px;color:#6b4f1a;letter-spacing:20px;writing-mode:vertical-rl;text-shadow:2px 2px 0 rgba(255,255,255,.75)}
+.s-sub{font-family:'FangSong','STFangsong','simkai',serif;font-size:21px;color:#8a6a35;letter-spacing:9px}
+.s-sign{font-size:13px;color:#a08a63;letter-spacing:3px}
+.mirror-svg{width:350px;height:350px;border-radius:50%;overflow:hidden;border:10px solid #b8914f;box-shadow:0 0 60px rgba(138,106,53,.45),inset 0 0 20px rgba(138,106,53,.25);display:block;background:#efe8d4}
+.cloud{position:absolute;background:rgba(255,255,255,.55);border-radius:50%;filter:blur(12px);pointer-events:none}
+/* Topbar */
+.topbar{display:flex;justify-content:center;gap:8px;margin-bottom:16px;flex-wrap:wrap;align-items:center}
+.topbar a{color:var(--accent);font-size:13px;cursor:pointer;text-decoration:none;letter-spacing:1px;border:1px solid var(--mutedBdr);padding:4px 10px;background:var(--card);transition:all .15s;user-select:none}
+.topbar a:hover{color:var(--gold);border-color:var(--gold)}
+.topbar a.active{color:var(--gold);border-color:var(--gold);font-weight:bold}
+/* Header */
+.hdr{text-align:center;margin:6px 0 20px}
+.hdr h1{font-size:34px;color:var(--gold);letter-spacing:8px;text-shadow:0 0 20px rgba(255,215,0,.2)}
+.hdr .sub{font-size:14px;color:var(--dim);letter-spacing:3px;margin-top:6px}
+.hdr .slogan{font-size:13px;color:var(--accent);letter-spacing:2px;margin-top:10px}
+/* Card */
+.card{background:var(--card);border:2px solid var(--bdr);padding:26px 26px 24px;margin-bottom:16px;box-shadow:0 0 24px rgba(74,105,189,.15)}
+.card .tag{font-size:11px;color:var(--accent);letter-spacing:3px;margin-bottom:8px;text-transform:uppercase}
+.card h2{font-size:20px;color:var(--gold);letter-spacing:2px;margin-bottom:10px;line-height:1.6}
+.card p{font-size:15px;color:var(--text);line-height:2;letter-spacing:.5px}
+.card .origin{font-size:13px;color:var(--dim);line-height:1.9;margin-top:10px;border-top:1px dashed var(--mutedBdr);padding-top:10px}
+/* Buttons */
+.btn{width:100%;padding:15px;margin-top:12px;background:var(--btnBg);color:var(--btnTxt);border:2px solid var(--btnBd);font-size:15px;font-family:inherit;cursor:pointer;letter-spacing:1px;transition:all .15s;text-align:left;line-height:1.7}
+.btn:hover{background:var(--btnBd);color:var(--btnBg)}
+.btn .who{display:block;font-size:11px;color:var(--btnSub);letter-spacing:1px;margin-top:4px}
+.btn.main{text-align:center;background:var(--btnMainBg);color:var(--btnMainTxt);border-color:var(--btnBd);letter-spacing:4px;font-size:16px}
+.btn.main:hover{filter:brightness(1.12)}
+/* Result */
+.result-line{font-size:15px;line-height:2;margin:6px 0}
+.result-line b{color:var(--gold)}
+.meter{height:14px;background:var(--inp);border:1px solid var(--bdr);margin:12px 0 4px;position:relative}
+.meter .fill{height:100%;background:linear-gradient(90deg,#8a6a35,#ffd700);transition:width .8s ease}
+.meter .lbl{position:absolute;right:8px;top:-3px;font-size:12px;color:var(--text)}
+.duyu{margin-top:14px;padding:16px;background:var(--inp);border:1px solid var(--mutedBdr);font-size:15px;color:var(--text);line-height:2;letter-spacing:1px;font-style:italic}
+.duyu .s{display:block;margin-top:8px;color:var(--dim);font-size:12px;font-style:normal}
+.hidden{display:none}
+/* Modal */
+.modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.75);z-index:200;justify-content:center;align-items:center;padding:20px}
+.modal-overlay.show{display:flex}
+.modal-box{background:var(--card);border:3px solid var(--bdr);max-width:600px;width:100%;max-height:80vh;overflow-y:auto;padding:26px 28px;position:relative}
+.modal-box h2{color:var(--gold);font-size:17px;letter-spacing:3px;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--bdr)}
+.modal-box h3{color:var(--accent);font-size:14px;margin:14px 0 6px;letter-spacing:1px}
+.modal-box p,.modal-box li{font-size:14px;color:var(--text);line-height:1.9;margin:6px 0}
+.modal-box ul{padding-left:18px}
+.modal-box a{color:var(--accent)}
+.modal-close{position:absolute;top:12px;right:16px;color:var(--dim);font-size:22px;cursor:pointer;background:none;border:none;font-family:inherit}
+.modal-close:hover{color:var(--gold)}
+.foot{margin-top:26px;text-align:center;color:var(--foot);font-size:11px;letter-spacing:2px;line-height:2}
+@media(max-width:600px){.hdr h1{font-size:28px}}
+</style>
+</head>
+<body>
+<div id="splash">
+  <div class="cloud" style="width:220px;height:56px;top:14%;left:8%"></div>
+  <div class="cloud" style="width:170px;height:46px;top:20%;right:10%"></div>
+  <div class="cloud" style="width:200px;height:52px;bottom:16%;left:14%"></div>
+  <div class="cloud" style="width:150px;height:42px;bottom:22%;right:16%"></div>
+  <div class="s-row">
+    <div class="s-title">见素</div>
+    <svg class="mirror-svg" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="skyG" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#f6f1e0"/><stop offset="1" stop-color="#e7dcbe"/>
+        </linearGradient>
+        <linearGradient id="waterG" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#cfc6a6"/><stop offset="1" stop-color="#7f7a5c"/>
+        </linearGradient>
+      </defs>
+      <rect x="0" y="0" width="300" height="148" fill="url(#skyG)"/>
+      <path d="M0,148 L55,78 L100,132 L150,55 L205,128 L255,88 L300,148 Z" fill="#9aa88a" opacity="0.55"/>
+      <path d="M0,148 L70,100 L130,140 L190,92 L245,138 L300,148 Z" fill="#7d8d6f" opacity="0.6"/>
+      <rect x="0" y="152" width="300" height="148" fill="url(#waterG)"/>
+      <path d="M0,152 L55,222 L100,168 L150,245 L205,172 L255,212 L300,152 Z" fill="#5f6f58" opacity="0.35"/>
+      <path d="M20,205 Q75,198 130,205 T240,205" stroke="#f6f1e0" stroke-width="1.5" fill="none" opacity="0.5"/>
+      <path d="M30,225 Q85,218 140,225 T250,225" stroke="#f6f1e0" stroke-width="1" fill="none" opacity="0.35"/>
+    </svg>
+  </div>
+  <div class="s-sub">西游镜鉴录</div>
+  <div class="s-sign">永远的兰兰 · Lanlan Eternal</div>
+</div>
+<audio id="bgm" loop src="audio/guqin.mp3"></audio>
+
+<div class="wrap">
+<div class="topbar">
+  <a id="btnZh" class="active" onclick="setL('zh')">中文</a>
+  <a id="btnEn" onclick="setL('en')">EN</a>
+  <a id="btnTheme" onclick="toggleTheme()">🌙</a>
+  <a id="btnSound" onclick="toggleSound()">♪ <span id="tSound">音乐</span></a>
+  <a onclick="openModal('use')">📖 <span id="tUse">使用说明</span></a>
+  <a onclick="openModal('disc')">⚠️ <span id="tDisc">免责声明</span></a>
+  <a onclick="openModal('about')">ℹ️ <span id="tAbout">关于</span></a>
+</div>
+
+<div class="hdr">
+  <h1>见 素</h1>
+  <div class="sub" id="sub">西游镜鉴录 · 第一镜</div>
+  <div class="slogan" id="slogan">不判对错 · 只照见你本来的样子</div>
+</div>
+
+<!-- 首页 -->
+<div id="vHome" class="card">
+  <div class="tag" id="tHomeTag">入镜前 · 一言</div>
+  <p id="tHomeP">《西游记》不是童话，是一本人到中年才读得懂的「社会生存手册」。软件不负责给答案，只负责把镜子擦亮。</p>
+  <p id="tHomeP2" style="margin-top:10px;color:var(--dim);font-size:13px">每一难，都是一面镜。照见你在相同处境下，会是取经队里的谁。</p>
+  <button class="btn main" onclick="show('vOrigin')" id="tEnter">照 这 一 镜 →</button>
+</div>
+
+<!-- 原文 -->
+<div id="vOrigin" class="card hidden">
+  <div class="tag" id="tOrgTag">第一镜 · 原文切片</div>
+  <h2 id="tOrgTitle">第二十七回<br>尸魔三戏唐三藏 · 圣僧恨逐美猴王</h2>
+  <p id="tOrgP">白骨精三次变化——村姑、老妇、老翁——来骗唐僧。悟空火眼金睛，三次识破，三次抡棒打死。可唐僧肉眼凡胎，只见悟空「无故伤人」，又听八戒一旁拱火，念起紧箍咒，写下贬书，将悟空逐回花果山。悟空含泪叩别。</p>
+  <p class="origin" id="tOrgQ">有些委屈，不是打妖怪能解的。</p>
+  <button class="btn main" onclick="show('vDilemma')" id="tNext">我见过这样的处境 →</button>
+</div>
+
+<!-- 处境 -->
+<div id="vDilemma" class="card hidden">
+  <div class="tag" id="tDilTag">镜中转译 · 处境</div>
+  <h2 id="tDilTitle">如果这是你的职场</h2>
+  <p id="tDilP">你凭专业判断，看出当前方案有重大隐患，证据确凿。可领导肉眼看不见风险，同事还在旁边说「就你多事」。你会怎么做？</p>
+  <button class="btn" onclick="pick(0)"><span id="tOptA">把证据甩到桌面上，据理力争，哪怕被记恨</span>
+    <span class="who" id="tOptA2">悟空型 · 专业优先，风险前置</span></button>
+  <button class="btn" onclick="pick(1)"><span id="tOptB">按程序办事，领导定什么我执行什么</span>
+    <span class="who" id="tOptB2">唐僧型 · 程序正义，服从规则</span></button>
+  <button class="btn" onclick="pick(2)"><span id="tOptC">点到为止，不再多说，先把自己摘干净</span>
+    <span class="who" id="tOptC2">八戒型 · 沉默自保，明哲保身</span></button>
+</div>
+
+<!-- 结果 -->
+<div id="vResult" class="card hidden">
+  <div class="tag" id="tResTag">照镜 · 见素</div>
+  <div class="result-line" id="tRes1"></div>
+  <div class="result-line" id="tRes2"></div>
+  <div class="result-line"><span id="tIdxLbl">见素指数</span>：<b id="rIdx"></b> <span style="color:var(--dim);font-size:12px" id="tIdxTip">（你的本真还剩多少）</span></div>
+  <div class="meter"><div class="fill" id="rFill" style="width:0%"></div><span class="lbl" id="rFillLbl">0</span></div>
+  <div class="duyu" id="rDuyu"></div>
+  <button class="btn main" onclick="location.reload()" id="tAgain">↺ 再照一镜</button>
+</div>
+
+<div class="foot">见素 · 西游镜鉴录 · 样镜演示 · © 永远的兰兰 Lanlan Eternal</div>
+</div>
+
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal-box" id="modalBox"></div>
+</div>
+
+<script>
+const VIEWS=['vHome','vOrigin','vDilemma','vResult'];
+function show(id){ VIEWS.forEach(v=>document.getElementById(v).classList.toggle('hidden', v!==id)); window.scrollTo({top:0}); }
+function applyTheme(t){ document.documentElement.setAttribute('data-theme',t); document.getElementById('btnTheme').textContent=t==='light'?'🌙':'☀️'; }
+function toggleTheme(){ const cur=document.documentElement.getAttribute('data-theme')==='light'?'dark':'light'; applyTheme(cur); try{localStorage.setItem('jsTheme',cur);}catch(e){} }
+let soundOn=true;
+function toggleSound(){ soundOn=!soundOn; const b=document.getElementById('bgm'); if(soundOn)b.play().catch(()=>{}); else b.pause(); document.getElementById('btnSound').className=soundOn?'active':''; }
+(function(){ const b=document.getElementById('bgm'); b.volume=0.25; b.play().catch(()=>{}); document.getElementById('btnSound').className='active'; document.addEventListener('pointerdown',function(){ if(soundOn&&b.paused)b.play().catch(()=>{}); }); })();
+
+let lang='zh';
+const I18N={
+zh:{sub:"西游镜鉴录 · 第一镜", slogan:"不判对错 · 只照见你本来的样子", sound:"音乐", use:"使用说明", disc:"免责声明", about:"关于",
+ homeTag:"入镜前 · 一言", homeP:"《西游记》不是童话，是一本人到中年才读得懂的「社会生存手册」。软件不负责给答案，只负责把镜子擦亮。", homeP2:"每一难，都是一面镜。照见你在相同处境下，会是取经队里的谁。", enter:"照 这 一 镜 →",
+ orgTag:"第一镜 · 原文切片", orgTitle:"第二十七回<br>尸魔三戏唐三藏 · 圣僧恨逐美猴王", orgP:"白骨精三次变化——村姑、老妇、老翁——来骗唐僧。悟空火眼金睛，三次识破，三次抡棒打死。可唐僧肉眼凡胎，只见悟空「无故伤人」，又听八戒一旁拱火，念起紧箍咒，写下贬书，将悟空逐回花果山。悟空含泪叩别。", orgQ:"有些委屈，不是打妖怪能解的。", next:"我见过这样的处境 →",
+ dilTag:"镜中转译 · 处境", dilTitle:"如果这是你的职场", dilP:"你凭专业判断，看出当前方案有重大隐患，证据确凿。可领导肉眼看不见风险，同事还在旁边说「就你多事」。你会怎么做？",
+ optA:"把证据甩到桌面上，据理力争，哪怕被记恨", optA2:"悟空型 · 专业优先，风险前置", optB:"按程序办事，领导定什么我执行什么", optB2:"唐僧型 · 程序正义，服从规则", optC:"点到为止，不再多说，先把自己摘干净", optC2:"八戒型 · 沉默自保，明哲保身",
+ resTag:"照镜 · 见素", res1:"你选了", res2:"这一镜，照出你是", idxLbl:"见素指数", idxTip:"（你的本真还剩多少）", again:"↺ 再照一镜",
+ c0:"把证据甩上桌，据理力争", c1:"按程序办事，服从执行", c2:"点到为止，沉默自保",
+ d0:"白骨精三戏三打，真话被当成了冒犯。不是妖怪打败了你，是身边的唐僧和八戒。你的火眼金睛，还信吗？<span class='s'>此难度与不度，都在你。——见素</span>",
+ d1:"你守的是戒律和程序，不是真相。规则保护了你，也蒙住了你——火眼金睛与肉眼凡胎之间，隔着一个「敢不敢信自己」。<span class='s'>此难度与不度，都在你。——见素</span>",
+ d2:"你学会了看眼色，学会了沉默。那一棒你没打下去，妖怪也没走远——你只是学会了在取经路上，先管好自己的耳朵。<span class='s'>此难度与不度，都在你。——见素</span>",
+ useHtml:`<h2>📖 使用说明</h2><p><b>见素 · 西游镜鉴录</b>是一面照见自己的镜子。</p><h3>怎么玩</h3><ul><li>每一难（一个西游故事）都是一面镜</li><li>先读原文切片，再看它转译成的现代处境</li><li>选一个"你会怎么做"——没有对错，只有人设</li><li>照镜后，你会看到自己的取经人格与见素指数</li></ul><h3>见素指数</h3><p>0–100，代表"你本真的心气还剩多少"。选得多委曲求全，指数就低；守住专业与本心，指数就高。</p><h3>原则</h3><p>不判对错、不站队、不说教。每一镜最后只有一句度语——此难度与不度，都在你。</p>`,
+ discHtml:`<h2>⚠️ 免责声明</h2><p><b>1. 性质</b>：本工具基于《西游记》创作的文化互动应用，输出内容属<b>传统文化解读与娱乐</b>范畴，非学术研究，亦非任何确定性论断。</p><p><b>2. 解读主观性</b>：所有"职场/社会映射"均为现代视角的文学联想，非原著本意，亦不代表唯一解读。请保留自己的判断。</p><p><b>3. 不提供建议</b>：本工具不提供任何职场、法律、心理或投资建议。重要决定请咨询专业人士。</p><p><b>4. 决策责任</b>：请勿将输出结果作为重大人生决策的依据。你的人生由你的行动与选择决定。</p><p><b>5. 数据隐私</b>：纯前端单文件应用，无服务器、无跟踪，所有数据仅存本地浏览器。</p><p><b>6. 版权</b>：《西游记》为公共领域著作；本工具原创内容以开源形式发布，仅供个人学习娱乐，请勿商业牟利。</p><p><b>7. 结语</b>：书中的镜子照见的从来不是妖怪，是你自己。继续使用即视为同意以上条款。</p>`,
+ aboutHtml:`<h2>ℹ️ 关于</h2><p><b>见素 · 西游镜鉴录</b>（Jiansu · Xiyou Mirror Records）</p><p>取《老子》"见素抱朴"——照见你本来的样子。<br>以《西游记》八十一难为镜，照现代人的处境与本心。</p><p><b>作者</b>：永远的兰兰（Lanlan Eternal）</p><p><b>开源</b>：github.com/podcatcher962</p><p style="margin-top:10px;color:var(--dim);font-size:11px">© 永远的兰兰 · Lanlan Eternal · 2026</p>`},
+en:{sub:"Xiyou Mirror Records · Mirror I", slogan:"No verdicts — just see who you truly are", sound:"Music", use:"How to Use", disc:"Disclaimer", about:"About",
+ homeTag:"Before the mirror · A word", homeP:"Journey to the West is not a fairy tale — it is a survival manual for grown-ups. This app gives no answers; it only polishes the mirror.", homeP2:"Every trial is a mirror showing who you would be in the team.", enter:"Look into this mirror →",
+ orgTag:"Mirror I · Original", orgTitle:"Chapter 27<br>The Corpse Demon Tricks the Monk Thrice; The Sage Monk Angrily Banishes the Monkey King", orgP:"The Bone Demon disguises herself thrice — a girl, an old woman, an old man. Wukong sees through each and strikes her down. But Tang Monk, seeing only 'senseless killing,' and urged on by Bajie, recites the tightening spell and banishes Wukong to Flower-Fruit Mountain. Wukong bows and leaves in tears.", orgQ:"Some wrongs cannot be undone by slaying monsters.", next:"I have seen this before →",
+ dilTag:"Mirror translation · Dilemma", dilTitle:"If this were your workplace", dilP:"You see a major flaw in the current plan with solid evidence, but your boss cannot see it and a colleague says 'you're making trouble.' What do you do?",
+ optA:"Throw the evidence on the table and fight for it, even if resented", optA2:"Wukong · truth first", optB:"Follow procedure and comply with whatever the boss decides", optB2:"Tang Monk · process over truth", optC:"Say just enough, say no more, keep yourself clean", optC2:"Bajie · stay silent, stay safe",
+ resTag:"Mirrored · Jiansu", res1:"You chose", res2:"This mirror shows you are", idxLbl:"Jiansu Index", idxTip:"(how much of your true self remains)", again:"↺ Look again",
+ c0:"Fought for the truth", c1:"Followed the procedure", c2:"Stayed silent",
+ d0:"Truth became an offense. It was not the demon that defeated you — it was the Tang Monk and Bajie beside you. Do you still trust your flaming eyes?<span class='s'>This trial is yours to take or leave. — Jiansu</span>",
+ d1:"You keep the rules, not the truth. Rules shield you, and blind you — between fiery eyes and mortal eyes lies a single question: dare you trust yourself?<span class='s'>This trial is yours to take or leave. — Jiansu</span>",
+ d2:"You learned to read the room, to stay quiet. That strike never landed, and the demon never left — you only learned to guard your ears on this journey.<span class='s'>This trial is yours to take or leave. — Jiansu</span>",
+ useHtml:`<h2>📖 How to Use</h2><p><b>Jiansu</b> is a mirror that sees you.</p><h3>How it works</h3><ul><li>Each trial (a story from the Journey) is one mirror</li><li>Read the original, then its modern translation</li><li>Choose "what you would do" — no right or wrong, only who you are</li><li>You will see your team persona and your Jiansu Index</li></ul><h3>Jiansu Index</h3><p>0–100: how much of your true spirit remains. Bending to please lowers it; keeping your truth raises it.</p><h3>Principle</h3><p>No verdicts, no camps, no preaching. Each mirror ends with one line — the trial is yours to take or leave.</p>`,
+ discHtml:`<h2>⚠️ Disclaimer</h2><p><b>1. Nature:</b> A cultural interaction app based on Journey to the West, for <b>cultural interpretation and entertainment</b>, not scholarship or certainty.</p><p><b>2. Subjectivity:</b> All modern mappings are literary associations, not the original intent nor the only reading. Keep your own judgment.</p><p><b>3. No advice:</b> No career, legal, psychological, or investment advice. Consult professionals for major decisions.</p><p><b>4. Responsibility:</b> Never base major life decisions on the output. Your life is shaped by your choices.</p><p><b>5. Privacy:</b> Pure front-end single file. No server, no tracking; all data stays in your browser.</p><p><b>6. Copyright:</b> Journey to the West is public domain; original content is open-source for personal study only.</p><p><b>7. Closing:</b> The mirror never shows a demon — it shows you. By using, you accept these terms.</p>`,
+ aboutHtml:`<h2>ℹ️ About</h2><p><b>Jiansu · Xiyou Mirror Records</b></p><p>From Laozi's "Jiansu Baopu" — see your true, unvarnished self.<br>Using the 81 trials of the Journey as mirrors for modern dilemmas.</p><p><b>Author</b>: Lanlan Eternal (永远的兰兰)</p><p><b>Source</b>: github.com/podcatcher962</p><p style="margin-top:10px;color:var(--dim);font-size:11px">© Lanlan Eternal · 2026</p>`}};
+function t(k){return I18N[lang][k];}
+function setL(l){
+  lang=l;
+  document.getElementById('btnZh').className=l==='zh'?'active':'';
+  document.getElementById('btnEn').className=l==='en'?'active':'';
+  document.getElementById('tSound').textContent=t('sound');
+  document.getElementById('tUse').textContent=t('use');
+  document.getElementById('tDisc').textContent=t('disc');
+  document.getElementById('tAbout').textContent=t('about');
+  document.getElementById('sub').textContent=t('sub');
+  document.getElementById('slogan').textContent=t('slogan');
+  document.getElementById('tHomeTag').textContent=t('homeTag');
+  document.getElementById('tHomeP').textContent=t('homeP');
+  document.getElementById('tHomeP2').textContent=t('homeP2');
+  document.getElementById('tEnter').textContent=t('enter');
+  document.getElementById('tOrgTag').textContent=t('orgTag');
+  document.getElementById('tOrgTitle').innerHTML=t('orgTitle');
+  document.getElementById('tOrgP').textContent=t('orgP');
+  document.getElementById('tOrgQ').textContent=t('orgQ');
+  document.getElementById('tNext').textContent=t('next');
+  document.getElementById('tDilTag').textContent=t('dilTag');
+  document.getElementById('tDilTitle').textContent=t('dilTitle');
+  document.getElementById('tDilP').textContent=t('dilP');
+  document.getElementById('tOptA').textContent=t('optA');
+  document.getElementById('tOptA2').textContent=t('optA2');
+  document.getElementById('tOptB').textContent=t('optB');
+  document.getElementById('tOptB2').textContent=t('optB2');
+  document.getElementById('tOptC').textContent=t('optC');
+  document.getElementById('tOptC2').textContent=t('optC2');
+  document.getElementById('tResTag').textContent=t('resTag');
+  document.getElementById('tIdxLbl').textContent=t('idxLbl');
+  document.getElementById('tIdxTip').textContent=t('idxTip');
+  document.getElementById('tAgain').textContent=t('again');
+}
+function openModal(type){
+  const html = type==='use'?t('useHtml') : type==='disc'?t('discHtml') : t('aboutHtml');
+  document.getElementById('modalBox').innerHTML = '<button class="modal-close" onclick="closeModal()">✕</button>' + html;
+  document.getElementById('modalOverlay').classList.add('show');
+}
+function closeModal(){ document.getElementById('modalOverlay').classList.remove('show'); }
+
+const CHOICES=[
+  {who:['悟空型 · 锐','Wukong · Sharp'], idx:106, d:['d0','d0']},
+  {who:['唐僧型 · 执','Tang Monk · Rigid'], idx:98, d:['d1','d1']},
+  {who:['八戒型 · 滑','Bajie · Smooth'], idx:91, d:['d2','d2']},
+];
+function pick(i){
+  const c=CHOICES[i], idx=Math.min(100,Math.max(0,c.idx));
+  document.getElementById('tRes1').innerHTML = t('res1')+' <b>'+t('c'+i)+'</b>';
+  document.getElementById('tRes2').innerHTML = t('res2')+' <b>'+c.who[(lang==='zh'?0:1)]+'</b>';
+  document.getElementById('rIdx').textContent=idx;
+  document.getElementById('rDuyu').innerHTML=t(c.d[lang==='zh'?0:1]);
+  show('vResult');
+  setTimeout(()=>{ document.getElementById('rFill').style.width=idx+'%'; document.getElementById('rFillLbl').textContent=idx; },120);
+}
+(function(){ try{applyTheme(localStorage.getItem('jsTheme')||'light');}catch(e){applyTheme('light');} setL('zh'); })();
+</script>
+</body>
+</html>
