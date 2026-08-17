@@ -84,6 +84,8 @@ html[data-theme="dark"] body{--grid:rgba(30,55,153,.06)}
 /* 镜徽 */
 .mirror-badge{width:70px;height:70px;border-radius:50%;border:3px solid var(--bdr);background:var(--inp);display:flex;align-items:center;justify-content:center;font-size:34px;margin:0 auto 14px;box-shadow:0 0 18px rgba(138,106,53,.28),inset 0 0 10px rgba(138,106,53,.18);line-height:1;user-select:none}
 .mirror-badge.small{width:48px;height:48px;font-size:24px;margin:0 auto 10px}
+.mirror-badge.img{width:150px;height:150px;background-size:cover;background-position:center;border-width:4px;box-shadow:0 6px 24px rgba(138,106,53,.35),inset 0 0 0 3px rgba(255,255,255,.18)}
+.mirror-badge.img.small{width:56px;height:56px;border-width:3px}
 /* 人格条形图 */
 .pbar{margin:9px 0}
 .pbar .pl{display:flex;justify-content:space-between;font-size:13px;margin-bottom:3px;letter-spacing:1px}
@@ -246,6 +248,7 @@ function t(k){return I18N[lang][k];}
 
 // ============ 81 面镜（完整版 · 九九八十一难） ============
 const ICONS=['💀','🎭','⛓️','🐴','👑','🌀','⚡','🍑','🧒','📜','🎁','🐯','👁️','🐷','🧺','⚖️','💎','🏺','🔥','🌟','👶','🛶','🔍','🐾','🕳️','🔀','⛰️','🐉','🕯️','💨','🙏','🌊','🌱','⚓','💧','🫧','🐟','🦬','🛡️','🧘','🍼','🦂','💔','🧹','📿','🎋','🔔','🪢','🍅','🩺','💊','👸','🕷️','👀','🦁','🦅','🏚️','☸️','🧿','🐭','🤒','⬛','⚔️','🌫️','🌧️','🗡️','🔱','🎍','🦏','🚨','💍','🚔','🦋','✉️','👺','🌪️','🤕','🪷','🎲','🏆','🍃'];
+const IMGS={0:1,1:1,2:1,3:1,4:1,5:1,7:1,8:1,9:1,11:1,12:1,13:1,17:1,18:1,46:1,53:1,55:1,62:1,65:1,73:1};
 const MIRRORS=[
 {zh:{title:"第二十七回<br>尸魔三戏唐三藏 · 圣僧恨逐美猴王",orig:"白骨精三次变化——村姑、老妇、老翁——来骗唐僧。悟空火眼金睛，三次识破，三次抡棒打死。可唐僧肉眼凡胎，只见悟空「无故伤人」，又听八戒一旁拱火，念起紧箍咒，写下贬书，将悟空逐回花果山。悟空含泪叩别。",line:"有些委屈，不是打妖怪能解的。",dil:"你凭专业判断，看出当前方案有重大隐患，证据确凿。可领导肉眼看不见风险，同事还在旁边说「就你多事」。你会怎么做？",
  opts:[{a:"把证据甩到桌面上，据理力争，哪怕被记恨",b:"悟空型 · 专业优先，风险前置",who:"悟空型 · 锐",idx:106,du:"白骨精三戏三打，真话被当成了冒犯。不是妖怪打败了你，是身边的唐僧和八戒。你的火眼金睛，还信吗？<span class='s'>此难度与不度，都在你。——见素</span>"},
@@ -901,7 +904,10 @@ en:{title:"Trial 48 · Seeking the Palm-Leaf Fan",orig:"Before the Flaming Mount
 function renderMirror(){
   const m=MIRRORS[mi][lang];
   document.getElementById('sub').textContent = (lang==='zh'?'西游镜鉴录 · 第':'Xiyou Mirror Records · Mirror ')+(mi+1)+(lang==='zh'?'镜':'');
-  document.getElementById('mBadge').textContent = ICONS[mi];
+  const hasImg=IMGS[mi];
+  const mb=document.getElementById('mBadge');
+  if(hasImg){ mb.className='mirror-badge img'; mb.style.backgroundImage="url('generated-images/mirror_"+String(mi).padStart(2,'0')+".jpg')"; mb.textContent=''; }
+  else { mb.className='mirror-badge'; mb.style.backgroundImage=''; mb.textContent=ICONS[mi]; }
   document.getElementById('tOrgTitle').innerHTML=m.title;
   document.getElementById('tOrgP').textContent=m.orig;
   document.getElementById('tOrgQ').textContent=m.line;
@@ -919,7 +925,9 @@ function pick(i){
   document.getElementById('tRes1').innerHTML = t('res1')+' <b>'+o.a+'</b>';
   document.getElementById('tRes2').innerHTML = t('res2')+' <b>'+o.who+'</b>';
   document.getElementById('rIdx').textContent=idx;
-  document.getElementById('rBadge').textContent=ICONS[mi];
+  const rb=document.getElementById('rBadge');
+  if(IMGS[mi]){ rb.className='mirror-badge small img'; rb.style.backgroundImage="url('generated-images/mirror_"+String(mi).padStart(2,'0')+".jpg')"; rb.textContent=''; }
+  else { rb.className='mirror-badge small'; rb.style.backgroundImage=''; rb.textContent=ICONS[mi]; }
   document.getElementById('rDuyu').innerHTML=o.du;
   show('vResult');
   setTimeout(()=>{ document.getElementById('rFill').style.width=idx+'%'; document.getElementById('rFillLbl').textContent=idx; },120);
