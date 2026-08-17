@@ -100,6 +100,7 @@ html[data-theme="dark"] body{--grid:rgba(30,55,153,.06)}
 .foot{margin-top:26px;text-align:center;color:var(--foot);font-size:11px;letter-spacing:2px;line-height:2}
 @media(max-width:600px){.hdr h1{font-size:28px}}
 </style>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 </head>
 <body>
 <div id="splash">
@@ -210,7 +211,9 @@ html[data-theme="dark"] body{--grid:rgba(30,55,153,.06)}
   <button class="btn" onclick="clearStats()" style="color:var(--dim);text-align:center" id="tReset">↺ 重新开始</button>
 </div>
 
-<div class="foot">见素 · 西游镜鉴录 · 样镜演示 · © 永远的兰兰 Lanlan Eternal</div>
+<div class="foot">见素 · 西游镜鉴录 · © 永远的兰兰 Lanlan Eternal
+  <div id="busuanzi_container_site_pv" style="margin-top:4px">👁 总浏览 <span id="busuanzi_value_site_pv"></span> 次 <span id="busuanzi_container_site_uv">· 访客 <span id="busuanzi_value_site_uv"></span> 人</span></div>
+</div>
 </div>
 
 <div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
