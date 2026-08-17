@@ -248,7 +248,7 @@ function t(k){return I18N[lang][k];}
 
 // ============ 81 面镜（完整版 · 九九八十一难） ============
 const ICONS=['💀','🎭','⛓️','🐴','👑','🌀','⚡','🍑','🧒','📜','🎁','🐯','👁️','🐷','🧺','⚖️','💎','🏺','🔥','🌟','👶','🛶','🔍','🐾','🕳️','🔀','⛰️','🐉','🕯️','💨','🙏','🌊','🌱','⚓','💧','🫧','🐟','🦬','🛡️','🧘','🍼','🦂','💔','🧹','📿','🎋','🔔','🪢','🍅','🩺','💊','👸','🕷️','👀','🦁','🦅','🏚️','☸️','🧿','🐭','🤒','⬛','⚔️','🌫️','🌧️','🗡️','🔱','🎍','🦏','🚨','💍','🚔','🦋','✉️','👺','🌪️','🤕','🪷','🎲','🏆','🍃'];
-const IMGS={0:1,1:1,2:1,3:1,4:1,5:1,7:1,8:1,9:1,11:1,12:1,13:1,17:1,18:1,46:1,53:1,55:1,62:1,65:1,73:1};
+const IMGS={0:1,1:1,2:1,3:1,4:1,5:1,6:1,7:1,8:1,9:1,10:1,11:1,12:1,13:1,14:1,15:1,16:1,17:1,18:1,19:1,21:1,27:1,29:1,33:1,37:1,41:1,46:1,47:1,51:1,52:1,53:1,54:1,55:1,60:1,61:1,64:1,68:1,70:1,72:1,76:1};
 const MIRRORS=[
 {zh:{title:"第二十七回<br>尸魔三戏唐三藏 · 圣僧恨逐美猴王",orig:"白骨精三次变化——村姑、老妇、老翁——来骗唐僧。悟空火眼金睛，三次识破，三次抡棒打死。可唐僧肉眼凡胎，只见悟空「无故伤人」，又听八戒一旁拱火，念起紧箍咒，写下贬书，将悟空逐回花果山。悟空含泪叩别。",line:"有些委屈，不是打妖怪能解的。",dil:"你凭专业判断，看出当前方案有重大隐患，证据确凿。可领导肉眼看不见风险，同事还在旁边说「就你多事」。你会怎么做？",
  opts:[{a:"把证据甩到桌面上，据理力争，哪怕被记恨",b:"悟空型 · 专业优先，风险前置",who:"悟空型 · 锐",idx:106,du:"白骨精三戏三打，真话被当成了冒犯。不是妖怪打败了你，是身边的唐僧和八戒。你的火眼金睛，还信吗？<span class='s'>此难度与不度，都在你。——见素</span>"},
@@ -906,8 +906,11 @@ function renderMirror(){
   document.getElementById('sub').textContent = (lang==='zh'?'西游镜鉴录 · 第':'Xiyou Mirror Records · Mirror ')+(mi+1)+(lang==='zh'?'镜':'');
   const hasImg=IMGS[mi];
   const mb=document.getElementById('mBadge');
-  if(hasImg){ mb.className='mirror-badge img'; mb.style.backgroundImage="url('generated-images/mirror_"+String(mi).padStart(2,'0')+".jpg')"; mb.textContent=''; }
-  else { mb.className='mirror-badge'; mb.style.backgroundImage=''; mb.textContent=ICONS[mi]; }
+  if(hasImg){
+   const u='generated-images/mirror_'+String(mi).padStart(2,'0')+'.jpg';
+   mb.className='mirror-badge img'; mb.style.backgroundImage="url('"+u+"')"; mb.textContent='';
+   const pr=new Image(); pr.onerror=function(){ mb.className='mirror-badge'; mb.style.backgroundImage=''; mb.textContent=ICONS[mi]; }; pr.src=u;
+  } else { mb.className='mirror-badge'; mb.style.backgroundImage=''; mb.textContent=ICONS[mi]; }
   document.getElementById('tOrgTitle').innerHTML=m.title;
   document.getElementById('tOrgP').textContent=m.orig;
   document.getElementById('tOrgQ').textContent=m.line;
@@ -926,8 +929,11 @@ function pick(i){
   document.getElementById('tRes2').innerHTML = t('res2')+' <b>'+o.who+'</b>';
   document.getElementById('rIdx').textContent=idx;
   const rb=document.getElementById('rBadge');
-  if(IMGS[mi]){ rb.className='mirror-badge small img'; rb.style.backgroundImage="url('generated-images/mirror_"+String(mi).padStart(2,'0')+".jpg')"; rb.textContent=''; }
-  else { rb.className='mirror-badge small'; rb.style.backgroundImage=''; rb.textContent=ICONS[mi]; }
+  if(IMGS[mi]){
+   const u='generated-images/mirror_'+String(mi).padStart(2,'0')+'.jpg';
+   rb.className='mirror-badge small img'; rb.style.backgroundImage="url('"+u+"')"; rb.textContent='';
+   const pr=new Image(); pr.onerror=function(){ rb.className='mirror-badge small'; rb.style.backgroundImage=''; rb.textContent=ICONS[mi]; }; pr.src=u;
+  } else { rb.className='mirror-badge small'; rb.style.backgroundImage=''; rb.textContent=ICONS[mi]; }
   document.getElementById('rDuyu').innerHTML=o.du;
   show('vResult');
   setTimeout(()=>{ document.getElementById('rFill').style.width=idx+'%'; document.getElementById('rFillLbl').textContent=idx; },120);
@@ -1057,26 +1063,41 @@ function drawMirrorCard(){
  ctx.textAlign='center';
  ctx.fillStyle='#7a5c1e'; ctx.font='bold 36px "Microsoft YaHei","KaiTi",serif'; ctx.fillText('见素 · 西游镜鉴录',W/2,92);
  ctx.fillStyle='#8a6a35'; ctx.font='14px "Courier New",monospace'; ctx.fillText('JIANMIRROR · XIYOU MIRROR RECORDS',W/2,122);
- ctx.font='108px serif'; ctx.fillText(ICONS[mi],W/2,238);
- ctx.fillStyle='#3e2f1d'; ctx.font='bold 27px "Microsoft YaHei"';
- let y=wrapText(ctx,stripHtml(m[lang].title).replace(/\s*·\s*/g,' · '),W/2,296,520,40,2);
- ctx.strokeStyle='rgba(184,145,79,.5)'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(80,y+16); ctx.lineTo(W-80,y+16); ctx.stroke();
- y+=46; ctx.textAlign='left';
- ctx.fillStyle='#8a6a35'; ctx.font='bold 17px "Microsoft YaHei"'; ctx.fillText(t('res1'),70,y);
- ctx.fillStyle='#3e2f1d'; ctx.font='17px "Microsoft YaHei"'; y=wrapText(ctx,o.a,70,y+32,W-140,30,3);
- y+=18;
- ctx.fillStyle='#8a6a35'; ctx.font='bold 17px "Microsoft YaHei"'; ctx.fillText(t('res2'),70,y);
- ctx.fillStyle='#7a5c1e'; ctx.font='bold 21px "Microsoft YaHei"'; ctx.fillText(o.who,70,y+32);
- y+=58;
- ctx.fillStyle='#8a6a35'; ctx.font='bold 17px "Microsoft YaHei"'; ctx.fillText(t('idxLbl'),70,y);
- ctx.fillStyle='#7a5c1e'; ctx.font='bold 50px "Microsoft YaHei"'; ctx.fillText(String(idx),70,y+50);
- ctx.fillStyle='#e0d2b0'; ctx.fillRect(150,y+28,410,18); ctx.fillStyle='#c9a25a'; ctx.fillRect(150,y+28,410*idx/100,18);
- y+=108;
- const duBody=o.du.split('<span')[0], duSign=(o.du.match(/<span[^>]*>([\s\S]*?)<\/span>/)||[])[1]||'';
- ctx.fillStyle='#3e2f1d'; ctx.font='16px "Microsoft YaHei"'; y=wrapText(ctx,stripHtml(duBody),70,y,W-140,30,5);
- ctx.fillStyle='#a08a63'; ctx.font='14px "Microsoft YaHei"'; ctx.textAlign='right'; ctx.fillText(stripHtml(duSign),W-70,y+28);
- ctx.textAlign='center'; ctx.fillStyle='#a08a63'; ctx.font='14px "Microsoft YaHei"'; ctx.fillText('永远的兰兰 · Lanlan Eternal',W/2,H-58);
- openShareModal(cv.toDataURL('image/png'));
+ const finish=function(){
+  ctx.fillStyle='#3e2f1d'; ctx.font='bold 27px "Microsoft YaHei"';
+  let y=wrapText(ctx,stripHtml(m[lang].title).replace(/\s*·\s*/g,' · '),W/2,296,520,40,2);
+  ctx.strokeStyle='rgba(184,145,79,.5)'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(80,y+16); ctx.lineTo(W-80,y+16); ctx.stroke();
+  y+=46; ctx.textAlign='left';
+  ctx.fillStyle='#8a6a35'; ctx.font='bold 17px "Microsoft YaHei"'; ctx.fillText(t('res1'),70,y);
+  ctx.fillStyle='#3e2f1d'; ctx.font='17px "Microsoft YaHei"'; y=wrapText(ctx,o.a,70,y+32,W-140,30,3);
+  y+=18;
+  ctx.fillStyle='#8a6a35'; ctx.font='bold 17px "Microsoft YaHei"'; ctx.fillText(t('res2'),70,y);
+  ctx.fillStyle='#7a5c1e'; ctx.font='bold 21px "Microsoft YaHei"'; ctx.fillText(o.who,70,y+32);
+  y+=58;
+  ctx.fillStyle='#8a6a35'; ctx.font='bold 17px "Microsoft YaHei"'; ctx.fillText(t('idxLbl'),70,y);
+  ctx.fillStyle='#7a5c1e'; ctx.font='bold 50px "Microsoft YaHei"'; ctx.fillText(String(idx),70,y+50);
+  ctx.fillStyle='#e0d2b0'; ctx.fillRect(150,y+28,410,18); ctx.fillStyle='#c9a25a'; ctx.fillRect(150,y+28,410*idx/100,18);
+  y+=108;
+  const duBody=o.du.split('<span')[0], duSign=(o.du.match(/<span[^>]*>([\s\S]*?)<\/span>/)||[])[1]||'';
+  ctx.fillStyle='#3e2f1d'; ctx.font='16px "Microsoft YaHei"'; y=wrapText(ctx,stripHtml(duBody),70,y,W-140,30,5);
+  ctx.fillStyle='#a08a63'; ctx.font='14px "Microsoft YaHei"'; ctx.textAlign='right'; ctx.fillText(stripHtml(duSign),W-70,y+28);
+  ctx.textAlign='center'; ctx.fillStyle='#a08a63'; ctx.font='14px "Microsoft YaHei"'; ctx.fillText('永远的兰兰 · Lanlan Eternal',W/2,H-58);
+  openShareModal(cv.toDataURL('image/png'));
+ };
+ if(IMGS[mi]){
+  const im=new Image();
+  im.onload=function(){
+   ctx.save(); ctx.beginPath(); ctx.arc(W/2,190,82,0,Math.PI*2); ctx.clip();
+   ctx.drawImage(im, W/2-82, 108, 164, 164); ctx.restore();
+   ctx.strokeStyle='#b8914f'; ctx.lineWidth=5; ctx.beginPath(); ctx.arc(W/2,190,82,0,Math.PI*2); ctx.stroke();
+   finish();
+  };
+  im.onerror=function(){ ctx.font='108px serif'; ctx.fillText(ICONS[mi],W/2,238); finish(); };
+  im.src='generated-images/mirror_'+String(mi).padStart(2,'0')+'.jpg';
+ } else {
+  ctx.font='108px serif'; ctx.fillText(ICONS[mi],W/2,238);
+  finish();
+ }
 }
 function drawSummaryCard(){
  const s=loadStats(); let top='wukong',topN=-1;
