@@ -983,11 +983,11 @@ function closeModal(){ document.getElementById('modalOverlay').classList.remove(
 
 // ============ 取经人格统计 + 分享卡 ============
 const PERSONAS={
- wukong:{zh:"悟空型 · 锐",en:"Wukong · Sharp",icon:"🐵"},
- tang:{zh:"唐僧型 · 执",en:"Tang Monk · Rigid",icon:"🧘"},
- bajie:{zh:"八戒型 · 滑",en:"Bajie · Smooth",icon:"🐷"},
- sha:{zh:"沙僧型 · 稳",en:"Sha Monk · Steady",icon:"🧺"},
- bailong:{zh:"白龙马型 · 忍",en:"White Dragon Horse · Enduring",icon:"🐉"}
+ wukong:{zh:"悟空型 · 锐",en:"Wukong · Sharp",icon:"🐵",avatar:"generated-images/persona_wukong.jpg"},
+ tang:{zh:"唐僧型 · 执",en:"Tang Monk · Rigid",icon:"🧘",avatar:"generated-images/persona_tang.jpg"},
+ bajie:{zh:"八戒型 · 滑",en:"Bajie · Smooth",icon:"🐷",avatar:"generated-images/persona_bajie.jpg"},
+ sha:{zh:"沙僧型 · 稳",en:"Sha Monk · Steady",icon:"🧺",avatar:"generated-images/persona_sha.jpg"},
+ bailong:{zh:"白龙马型 · 忍",en:"White Dragon Horse · Enduring",icon:"🐉",avatar:"generated-images/persona_bailong.jpg"}
 };
 const PERSONA_WORDS={
  wukong:{zh:"你守着一双火眼金睛，敢说真话、敢担事。取经路上，你是那个不肯闭眼的人——这份锐气，是你能留给自己的、最珍贵的东西。",en:"You keep a pair of fiery eyes, daring to speak truth and shoulder things. On the road, you are the one who refuses to close their eyes — that sharpness is the most precious thing you can keep for yourself."},
@@ -1022,7 +1022,9 @@ function showSummary(){
   let top='wukong',topN=-1;
   ['wukong','tang','bajie','sha','bailong'].forEach(k=>{ if((s[k]||0)>topN){topN=s[k];top=k;} });
   const p=PERSONAS[top];
-  document.getElementById('sumBadge').textContent=p.icon;
+  const sb=document.getElementById('sumBadge');
+  sb.className='mirror-badge img'; sb.style.backgroundImage="url('"+p.avatar+"')"; sb.textContent='';
+  const sp=new Image(); sp.onerror=function(){ sb.className='mirror-badge'; sb.style.backgroundImage=''; sb.textContent=p.icon; }; sp.src=p.avatar;
   document.getElementById('sumTitle').textContent=(lang==='zh'?'你是取经队里的':'In the team, you are')+' '+p[lang];
   document.getElementById('sumMeta').textContent=(lang==='zh'?('已照 '+s.count+' 面镜'):('Looked into '+s.count+' mirrors'));
   let bars='';
@@ -1110,25 +1112,35 @@ function drawSummaryCard(){
  ctx.textAlign='center';
  ctx.fillStyle='#7a5c1e'; ctx.font='bold 36px "Microsoft YaHei","KaiTi",serif'; ctx.fillText('见素 · 西游镜鉴录',W/2,92);
  ctx.fillStyle='#8a6a35'; ctx.font='14px "Courier New",monospace'; ctx.fillText('JIANMIRROR · XIYOU MIRROR RECORDS',W/2,122);
- ctx.font='108px serif'; ctx.fillText(p.icon,W/2,238);
- ctx.fillStyle='#3e2f1d'; ctx.font='bold 28px "Microsoft YaHei"'; ctx.fillText((lang==='zh'?'你是取经队里的':'In the team, you are'),W/2,294);
- ctx.fillStyle='#7a5c1e'; ctx.font='bold 34px "Microsoft YaHei"'; ctx.fillText(p[lang],W/2,344);
- ctx.strokeStyle='rgba(184,145,79,.5)'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(80,372); ctx.lineTo(W-80,372); ctx.stroke();
- let y=408; ctx.textAlign='left';
- ['wukong','tang','bajie','sha','bailong'].forEach(k=>{
-  const n=s[k]||0, pct=s.count?Math.round(n/s.count*100):0;
-  ctx.fillStyle='#3e2f1d'; ctx.font='16px "Microsoft YaHei"'; ctx.fillText(PERSONAS[k].icon+' '+PERSONAS[k][lang].split(' · ')[0],70,y);
-  ctx.textAlign='right'; ctx.fillStyle='#8a6a35'; ctx.fillText(pct+'%',W-70,y); ctx.textAlign='left';
-  ctx.fillStyle='#e0d2b0'; ctx.fillRect(70,y+8,W-140,16); ctx.fillStyle='#c9a25a'; ctx.fillRect(70,y+8,(W-140)*pct/100,16);
-  y+=52;
- });
- y+=20;
- ctx.fillStyle='#8a6a35'; ctx.font='bold 17px "Microsoft YaHei"'; ctx.fillText(t('sumIdx'),70,y);
- ctx.fillStyle='#7a5c1e'; ctx.font='bold 40px "Microsoft YaHei"'; ctx.fillText(String(avgIdx),70,y+44);
- y+=92;
- ctx.fillStyle='#3e2f1d'; ctx.font='16px "Microsoft YaHei"'; wrapText(ctx,PERSONA_WORDS[top][lang],70,y,W-140,30,6);
- ctx.textAlign='center'; ctx.fillStyle='#a08a63'; ctx.font='14px "Microsoft YaHei"'; ctx.fillText('永远的兰兰 · Lanlan Eternal',W/2,H-58);
- openShareModal(cv.toDataURL('image/png'));
+ const finish=function(){
+  ctx.fillStyle='#3e2f1d'; ctx.font='bold 28px "Microsoft YaHei"'; ctx.fillText((lang==='zh'?'你是取经队里的':'In the team, you are'),W/2,294);
+  ctx.fillStyle='#7a5c1e'; ctx.font='bold 34px "Microsoft YaHei"'; ctx.fillText(p[lang],W/2,344);
+  ctx.strokeStyle='rgba(184,145,79,.5)'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(80,372); ctx.lineTo(W-80,372); ctx.stroke();
+  let y=408; ctx.textAlign='left';
+  ['wukong','tang','bajie','sha','bailong'].forEach(k=>{
+   const n=s[k]||0, pct=s.count?Math.round(n/s.count*100):0;
+   ctx.fillStyle='#3e2f1d'; ctx.font='16px "Microsoft YaHei"'; ctx.fillText(PERSONAS[k].icon+' '+PERSONAS[k][lang].split(' · ')[0],70,y);
+   ctx.textAlign='right'; ctx.fillStyle='#8a6a35'; ctx.fillText(pct+'%',W-70,y); ctx.textAlign='left';
+   ctx.fillStyle='#e0d2b0'; ctx.fillRect(70,y+8,W-140,16); ctx.fillStyle='#c9a25a'; ctx.fillRect(70,y+8,(W-140)*pct/100,16);
+   y+=52;
+  });
+  y+=20;
+  ctx.fillStyle='#8a6a35'; ctx.font='bold 17px "Microsoft YaHei"'; ctx.fillText(t('sumIdx'),70,y);
+  ctx.fillStyle='#7a5c1e'; ctx.font='bold 40px "Microsoft YaHei"'; ctx.fillText(String(avgIdx),70,y+44);
+  y+=92;
+  ctx.fillStyle='#3e2f1d'; ctx.font='16px "Microsoft YaHei"'; wrapText(ctx,PERSONA_WORDS[top][lang],70,y,W-140,30,6);
+  ctx.textAlign='center'; ctx.fillStyle='#a08a63'; ctx.font='14px "Microsoft YaHei"'; ctx.fillText('永远的兰兰 · Lanlan Eternal',W/2,H-58);
+  openShareModal(cv.toDataURL('image/png'));
+ };
+ const im=new Image();
+ im.onload=function(){
+  ctx.save(); ctx.beginPath(); ctx.arc(W/2,190,82,0,Math.PI*2); ctx.clip();
+  ctx.drawImage(im, W/2-82, 108, 164, 164); ctx.restore();
+  ctx.strokeStyle='#b8914f'; ctx.lineWidth=5; ctx.beginPath(); ctx.arc(W/2,190,82,0,Math.PI*2); ctx.stroke();
+  finish();
+ };
+ im.onerror=function(){ ctx.font='108px serif'; ctx.fillText(p.icon,W/2,238); finish(); };
+ im.src=p.avatar;
 }
 function genShare(isSummary){ if(isSummary){ const s=loadStats(); if(s.count===0){ return; } drawSummaryCard(); } else { drawMirrorCard(); } }
 (function(){ try{applyTheme(localStorage.getItem('jsTheme')||'light');}catch(e){applyTheme('light');} setL('zh'); })();
