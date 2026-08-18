@@ -37,7 +37,6 @@ html[data-theme="dark"] body{--grid:rgba(30,55,153,.06)}
 .s-title{font-family:'FangSong','STFangsong','simkai',serif;font-size:64px;color:#6b4f1a;letter-spacing:20px;writing-mode:vertical-rl;text-shadow:2px 2px 0 rgba(255,255,255,.75)}
 .s-sub{font-family:'FangSong','STFangsong','simkai',serif;font-size:21px;color:#8a6a35;letter-spacing:9px}
 .s-sign{font-size:13px;color:#a08a63;letter-spacing:3px}
-.mirror-svg{width:350px;height:350px;border-radius:50%;overflow:hidden;border:10px solid #b8914f;box-shadow:0 0 60px rgba(138,106,53,.45),inset 0 0 20px rgba(138,106,53,.25);display:block;background:#efe8d4}
 .cloud{position:absolute;background:rgba(255,255,255,.55);border-radius:50%;filter:blur(12px);pointer-events:none}
 /* Topbar */
 .topbar{display:flex;justify-content:center;gap:8px;margin-bottom:16px;flex-wrap:wrap;align-items:center}
@@ -84,8 +83,11 @@ html[data-theme="dark"] body{--grid:rgba(30,55,153,.06)}
 /* 镜徽 */
 .mirror-badge{width:70px;height:70px;border-radius:50%;border:3px solid var(--bdr);background:var(--inp);display:flex;align-items:center;justify-content:center;font-size:34px;margin:0 auto 14px;box-shadow:0 0 18px rgba(138,106,53,.28),inset 0 0 10px rgba(138,106,53,.18);line-height:1;user-select:none}
 .mirror-badge.small{width:48px;height:48px;font-size:24px;margin:0 auto 10px}
-.mirror-badge.img{width:150px;height:150px;background-size:cover;background-position:center;border-width:4px;box-shadow:0 6px 24px rgba(138,106,53,.35),inset 0 0 0 3px rgba(255,255,255,.18)}
-.mirror-badge.img.small{width:56px;height:56px;border-width:3px}
+.mirror-badge.img{width:220px;height:220px;background-size:cover;background-position:center;border:12px solid #8a7a4a;outline:3px solid #b9a96e;box-shadow:0 0 0 5px #5a4a28,0 10px 34px rgba(0,0,0,.4),inset 0 0 0 4px rgba(255,255,255,.14),inset 0 0 26px rgba(0,0,0,.35)}
+.mirror-badge.img.small{width:64px;height:64px;border-width:6px;outline-width:2px;box-shadow:0 0 0 3px #5a4a28,0 4px 14px rgba(0,0,0,.3),inset 0 0 0 2px rgba(255,255,255,.12),inset 0 0 12px rgba(0,0,0,.3)}
+/* 开屏古铜镜 */
+.bronze-mirror{width:360px;height:360px;border-radius:50%;overflow:hidden;border:16px solid #8a7a4a;outline:3px solid #b9a96e;box-shadow:0 0 0 6px #5a4a28,0 12px 44px rgba(0,0,0,.45),inset 0 0 0 5px rgba(255,255,255,.14);flex-shrink:0;background:#efe8d4}
+.bronze-mirror img{width:100%;height:100%;object-fit:cover;display:block}
 /* 人格条形图 */
 .pbar{margin:9px 0}
 .pbar .pl{display:flex;justify-content:space-between;font-size:13px;margin-bottom:3px;letter-spacing:1px}
@@ -110,23 +112,7 @@ html[data-theme="dark"] body{--grid:rgba(30,55,153,.06)}
   <div class="cloud" style="width:150px;height:42px;bottom:22%;right:16%"></div>
   <div class="s-row">
     <div class="s-title">见素</div>
-    <svg class="mirror-svg" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="skyG" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#f6f1e0"/><stop offset="1" stop-color="#e7dcbe"/>
-        </linearGradient>
-        <linearGradient id="waterG" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#cfc6a6"/><stop offset="1" stop-color="#7f7a5c"/>
-        </linearGradient>
-      </defs>
-      <rect x="0" y="0" width="300" height="148" fill="url(#skyG)"/>
-      <path d="M0,148 L55,78 L100,132 L150,55 L205,128 L255,88 L300,148 Z" fill="#9aa88a" opacity="0.55"/>
-      <path d="M0,148 L70,100 L130,140 L190,92 L245,138 L300,148 Z" fill="#7d8d6f" opacity="0.6"/>
-      <rect x="0" y="152" width="300" height="148" fill="url(#waterG)"/>
-      <path d="M0,152 L55,222 L100,168 L150,245 L205,172 L255,212 L300,152 Z" fill="#5f6f58" opacity="0.35"/>
-      <path d="M20,205 Q75,198 130,205 T240,205" stroke="#f6f1e0" stroke-width="1.5" fill="none" opacity="0.5"/>
-      <path d="M30,225 Q85,218 140,225 T250,225" stroke="#f6f1e0" stroke-width="1" fill="none" opacity="0.35"/>
-    </svg>
+    <div class="bronze-mirror"><img src="generated-images/persona_wukong.jpg" alt=""></div>
   </div>
   <div class="s-sub">西游镜鉴录</div>
   <div class="s-sign">永远的兰兰 · Lanlan Eternal</div>
