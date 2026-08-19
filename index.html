@@ -83,10 +83,18 @@ html[data-theme="dark"] body{--grid:rgba(30,55,153,.06)}
 /* 镜徽 */
 .mirror-badge{width:70px;height:70px;border-radius:50%;border:3px solid var(--bdr);background:var(--inp);display:flex;align-items:center;justify-content:center;font-size:34px;margin:0 auto 14px;box-shadow:0 0 18px rgba(138,106,53,.28),inset 0 0 10px rgba(138,106,53,.18);line-height:1;user-select:none}
 .mirror-badge.small{width:48px;height:48px;font-size:24px;margin:0 auto 10px}
-.mirror-badge.img{width:220px;height:220px;background-size:cover;background-position:center;border:12px solid #8a7a4a;outline:3px solid #b9a96e;box-shadow:0 0 0 5px #5a4a28,0 10px 34px rgba(0,0,0,.4),inset 0 0 0 4px rgba(255,255,255,.14),inset 0 0 26px rgba(0,0,0,.35)}
-.mirror-badge.img.small{width:64px;height:64px;border-width:6px;outline-width:2px;box-shadow:0 0 0 3px #5a4a28,0 4px 14px rgba(0,0,0,.3),inset 0 0 0 2px rgba(255,255,255,.12),inset 0 0 12px rgba(0,0,0,.3)}
+/* 插画镜徽：古铜镜外观（镜面+铜缘+辐纹缘饰+高光暗角） */
+.mirror-badge.img{position:relative;width:300px;height:300px;background-size:cover;background-position:center;border:14px solid #8a7a4a;outline:2px solid #c4b478;box-shadow:0 0 0 6px #5a4a28,0 0 0 30px #9b8b5a,0 16px 44px rgba(0,0,0,.5),inset 0 0 0 4px rgba(255,255,255,.16),inset 0 0 34px rgba(0,0,0,.4)}
+.mirror-badge.img::after{content:"";position:absolute;left:50%;top:50%;width:calc(100% + 44px);height:calc(100% + 44px);transform:translate(-50%,-50%);border-radius:50%;background:repeating-conic-gradient(rgba(255,232,170,.7) 0deg 4deg,rgba(112,88,50,.85) 4deg 9deg);-webkit-mask:radial-gradient(circle,transparent 82%,#000 83%,#000 97%,transparent 98%);mask:radial-gradient(circle,transparent 82%,#000 83%,#000 97%,transparent 98%);pointer-events:none}
+.mirror-badge.img::before{content:"";position:absolute;left:50%;top:50%;width:calc(100% + 58px);height:calc(100% + 58px);transform:translate(-50%,-50%);border-radius:50%;border:2px solid rgba(196,180,120,.55);box-shadow:0 0 10px rgba(196,180,120,.35);pointer-events:none}
+.mirror-badge.img.small{width:64px;height:64px;border-width:7px;outline-width:1px;box-shadow:0 0 0 3px #5a4a28,0 0 0 14px #9b8b5a,0 5px 16px rgba(0,0,0,.35),inset 0 0 0 2px rgba(255,255,255,.13),inset 0 0 14px rgba(0,0,0,.32)}
+.mirror-badge.img.small::after{width:calc(100% + 22px);height:calc(100% + 22px)}
+.mirror-badge.img.small::before{width:calc(100% + 30px);height:calc(100% + 30px)}
 /* 开屏古铜镜 */
-.bronze-mirror{width:360px;height:360px;border-radius:50%;overflow:hidden;border:16px solid #8a7a4a;outline:3px solid #b9a96e;box-shadow:0 0 0 6px #5a4a28,0 12px 44px rgba(0,0,0,.45),inset 0 0 0 5px rgba(255,255,255,.14);flex-shrink:0;background:#efe8d4}
+.bronze-wrap{position:relative;flex-shrink:0}
+.bronze-wrap::after{content:"";position:absolute;left:50%;top:50%;width:calc(100% + 48px);height:calc(100% + 48px);transform:translate(-50%,-50%);border-radius:50%;background:repeating-conic-gradient(rgba(255,232,170,.65) 0deg 4deg,rgba(112,88,50,.8) 4deg 9deg);-webkit-mask:radial-gradient(circle,transparent 82%,#000 83%,#000 97%,transparent 98%);mask:radial-gradient(circle,transparent 82%,#000 83%,#000 97%,transparent 98%);pointer-events:none}
+.bronze-wrap::before{content:"";position:absolute;left:50%;top:50%;width:calc(100% + 62px);height:calc(100% + 62px);transform:translate(-50%,-50%);border-radius:50%;border:2px solid rgba(196,180,120,.5);box-shadow:0 0 12px rgba(196,180,120,.3);pointer-events:none}
+.bronze-mirror{width:360px;height:360px;border-radius:50%;overflow:hidden;border:18px solid #8a7a4a;outline:2px solid #c4b478;box-shadow:0 0 0 6px #5a4a28,0 0 0 32px #9b8b5a,0 16px 50px rgba(0,0,0,.55),inset 0 0 0 5px rgba(255,255,255,.16);flex-shrink:0;background:#efe8d4;position:relative;z-index:1}
 .bronze-mirror img{width:100%;height:100%;object-fit:cover;display:block}
 /* 人格条形图 */
 .pbar{margin:9px 0}
@@ -112,7 +120,7 @@ html[data-theme="dark"] body{--grid:rgba(30,55,153,.06)}
   <div class="cloud" style="width:150px;height:42px;bottom:22%;right:16%"></div>
   <div class="s-row">
     <div class="s-title">见素</div>
-    <div class="bronze-mirror"><img src="generated-images/xiyou_hero.jpg" alt=""></div>
+    <div class="bronze-wrap"><div class="bronze-mirror"><img src="generated-images/xiyou_hero.jpg" alt=""></div></div>
   </div>
   <div class="s-sub">西游镜鉴录</div>
   <div class="s-sign">永远的兰兰 · Lanlan Eternal</div>
